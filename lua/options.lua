@@ -21,6 +21,7 @@ vim.g.netrw_indent = 3
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = 'Return to [Ex]plorer' })
 vim.keymap.set("n", "zj", vim.cmd.w, { desc = '[S]ave' })
 vim.keymap.set("n", "zk", vim.cmd.q, { desc = '[Q]uits' })
+vim.keymap.set("n", "<leader><CR>", "i<CR><C-c>", { desc = 'Adds a newline at cursor position' })
 
 -- Remapping replacing in file
 vim.keymap.set("n", "<leader>rr", ":%s/\\<<C-r><C-w>\\>/<C-r><C-w>/gI<left><left><left>", { desc = 'find and [R]eplace {x} under cursor' })
@@ -51,3 +52,6 @@ vim.keymap.set("n", '<leader>grv', ":Git remote -v<CR>", { desc = 'Git [R]emote 
 vim.keymap.set("n", '<leader>gp', ":Git push ", { desc = 'Git [P]ush' })
 vim.keymap.set("n", '<leader>ga', ":Git add ", { desc = 'Git [A]dd' })
 vim.keymap.set("n", '<leader>gb', ":Git branch<CR>:Git checkout ", { desc = 'Git [B]ranch' })
+
+-- Tree sitter parser
+vim.keymap.set("n", "<leader>`", vim.cmd.InspectTree, { desc = "Tree sitter parser pane" })

@@ -93,16 +93,110 @@ require("lazy").setup({
 							['@function.outer'] = 'V', -- linewise
 							['@class.outer'] = '<c-v>', -- blockwise
 						},
-						-- If you set this to `true` (default is `false`) then any textobject is
-						-- extended to include preceding or succeeding whitespace. Succeeding
-						-- whitespace has priority in order to act similarly to eg the built-in
-						-- `ap`.
-						--
-						-- Can also be a function which gets passed a table with the keys
-						-- * query_string: eg '@function.inner'
-						-- * selection_mode: eg 'v'
-						-- and should return true or false
 						include_surrounding_whitespace = true,
+					},
+					move = {
+						enable = true,
+						set_jumps = true, -- whether to set jumps in the jumplist
+						goto_next_start = {
+							['gje'] = '@assignment.outer',
+							['gja'] = '@attribute.outer',
+							['gjb'] = '@block.outer',
+							['gjk'] = '@call.outer',
+							['gjo'] = '@comment.outer',
+							['gjm'] = '@frame.outer',
+							['gjx'] = '@regex.outer',
+							['gjr'] = '@return.outer',
+							['gjs'] = '@statement.outer',
+							['gjp'] = '@parameter.outer',
+							['gjf'] = '@function.outer',
+							['gjc'] = '@class.outer',
+							['gjl'] = '@loop.outer',
+							['gji'] = '@conditional.outer',
+						},
+						goto_next_end = {
+							['gJe'] = '@assignment.outer',
+							['gJa'] = '@attribute.outer',
+							['gJb'] = '@block.outer',
+							['gJk'] = '@call.outer',
+							['gJo'] = '@comment.outer',
+							['gJm'] = '@frame.outer',
+							['gJx'] = '@regex.outer',
+							['gJr'] = '@return.outer',
+							['gJs'] = '@statement.outer',
+							['gJp'] = '@parameter.outer',
+							['gJf'] = '@function.outer',
+							['gJc'] = '@class.outer',
+							['gJl'] = '@loop.outer',
+							['gJi'] = '@conditional.outer',
+						},
+						goto_previous_start = {
+							['gke'] = '@assignment.outer',
+							['gka'] = '@attribute.outer',
+							['gkb'] = '@block.outer',
+							['gkk'] = '@call.outer',
+							['gko'] = '@comment.outer',
+							['gkm'] = '@frame.outer',
+							['gkx'] = '@regex.outer',
+							['gkr'] = '@return.outer',
+							['gks'] = '@statement.outer',
+							['gkp'] = '@parameter.outer',
+							['gkf'] = '@function.outer',
+							['gkc'] = '@class.outer',
+							['gkl'] = '@loop.outer',
+							['gki'] = '@conditional.outer',
+						},
+						goto_previous_end = {
+							['gKe'] = '@assignment.outer',
+							['gKa'] = '@attribute.outer',
+							['gKb'] = '@block.outer',
+							['gKk'] = '@call.outer',
+							['gKo'] = '@comment.outer',
+							['gKm'] = '@frame.outer',
+							['gKx'] = '@regex.outer',
+							['gKr'] = '@return.outer',
+							['gKs'] = '@statement.outer',
+							['gKp'] = '@parameter.outer',
+							['gKf'] = '@function.outer',
+							['gKc'] = '@class.outer',
+							['gKl'] = '@loop.outer',
+							['gKi'] = '@conditional.outer',
+						},
+					},
+					swap = {
+						enable = true,
+						swap_next = {
+							['<leader>je'] = '@assignment.inner',
+							['<leader>ja'] = '@attribute.inner',
+							['<leader>jb'] = '@block.inner',
+							['<leader>jk'] = '@call.inner',
+							['<leader>jo'] = '@comment.inner',
+							['<leader>jm'] = '@frame.inner',
+							['<leader>jx'] = '@regex.inner',
+							['<leader>jr'] = '@return.inner',
+							['<leader>js'] = '@statement.inner',
+							['<leader>jp'] = '@parameter.inner',
+							['<leader>jf'] = '@function.inner',
+							['<leader>jc'] = '@class.inner',
+							['<leader>jl'] = '@loop.inner',
+							['<leader>ji'] = '@conditional.inner',
+						},
+						swap_previous = {
+							['<leader>ke'] = '@assignment.inner',
+							['<leader>ka'] = '@attribute.inner',
+							['<leader>kb'] = '@block.inner',
+							['<leader>kk'] = '@call.inner',
+							['<leader>ko'] = '@comment.inner',
+							['<leader>km'] = '@frame.inner',
+							['<leader>kx'] = '@regex.inner',
+							['<leader>kr'] = '@return.inner',
+							['<leader>ks'] = '@statement.inner',
+							['<leader>kp'] = '@parameter.inner',
+							['<leader>kf'] = '@function.inner',
+							['<leader>kc'] = '@class.inner',
+							['<leader>kl'] = '@loop.inner',
+							['<leader>ki'] = '@conditional.inner',
+						},
 					},
 				},
 			})
@@ -205,6 +299,19 @@ require("lazy").setup({
 	{
 		'echasnovski/mini.jump2d',
 		version = '*',
+	},
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"theHamsta/nvim-dap-virtual-text",
+			"rcarriga/nvim-dap-ui",
+			"nvim-neotest/nvim-nio",
+			"williamboman/mason.nvim",
+		},
+		config = function()
+			require("nvim-dap-virtual-text").setup()
+			require("dapui").setup()
+		end,
 	},
 })
 
