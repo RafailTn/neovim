@@ -307,6 +307,7 @@ require("lazy").setup({
 			"rcarriga/nvim-dap-ui",
 			"nvim-neotest/nvim-nio",
 			"williamboman/mason.nvim",
+			"mfussenegger/nvim-dap-python"
 		},
 		config = function()
 			require("nvim-dap-virtual-text").setup()

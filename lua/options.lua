@@ -38,7 +38,6 @@ vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = 'Move highlighted lines do
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = 'Move highlighted lines up' })
 
 -- Move to usual directories
-vim.keymap.set("n", "<leader>d", ':edit /Volumes/Mac/Users/rafailadam/Downloads/<CR>', { desc = 'Returns to Downloads directory' })
 vim.keymap.set("n", "<leader>t", ':tabnew<CR>', {desc = 'Opens new tab'})
 vim.keymap.set("n", "<leader>c", ':terminal<CR>', {desc = 'Opens terminal'})
 
@@ -55,3 +54,4 @@ vim.keymap.set("n", '<leader>gb', ":Git branch<CR>:Git checkout ", { desc = 'Git
 
 -- Tree sitter parser
 vim.keymap.set("n", "<leader>`", vim.cmd.InspectTree, { desc = "Tree sitter parser pane" })
+
