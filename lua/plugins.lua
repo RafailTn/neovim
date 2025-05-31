@@ -258,7 +258,7 @@ require("lazy").setup({
 				preset = 'none',
 				['<Up>'] = { 'select_prev', 'fallback' },
 				['<Down>'] = { 'select_next', 'fallback' },
-				['<Tab>'] = { 'select_and_accept' },
+				['<Tab>'] = { 'select_and_accept', 'fallback'},
 			},
 			appearance = {
 				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
