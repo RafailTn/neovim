@@ -316,10 +316,8 @@ require("lazy").setup({
 		config = function()
 			local dap = require("dap")
 			local dapui = require("dapui")
-
 			require("nvim-dap-virtual-text").setup()
 			dapui.setup()
-
 			dap.listeners.after.event_initialized["dapui_config"] = function()
 				dapui.open()
 			end
@@ -329,13 +327,11 @@ require("lazy").setup({
 			dap.listeners.before.event_exited["dapui_config"] = function()
 				dapui.close()
 			end
-
 			dap.adapters.python = {
 				type = 'executable',
 				command = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python",
 				args = { '-m', 'debugpy.adapter', },
 			}
-
 			dap.configurations.python = {
 				{
 					type = 'python';
@@ -348,7 +344,6 @@ require("lazy").setup({
 					end;
 				},
 			}
-
 			vim.fn.sign_define('DapBreakpoint', { text = '󰨰', texthl = 'DapBreakpoint', linehl = '', numhl = '' })
 			vim.keymap.set("n", "<leader>pt", function() dap.toggle_breakpoint() end, { desc = '[T]oggle [B]reak point' })
 			vim.keymap.set('n', '<Leader>pb', function() dap.set_breakpoint() end, { desc = '[S]et [B]reak point' })
@@ -377,6 +372,35 @@ require("lazy").setup({
 				widgets.centered_float(widgets.scopes)
 			end, {desc = '[W]idget [S]copes'})
 		end
+	},
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim" }
+	},
+	{
+		"nvim-telescope/telescope.nvim",
+		branch = "0.1.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"BurntSushi/ripgrep",
+		},
+		config = function ()
+			local builtin = require("telescope.builtin")
+			vim.keymap.set("n", "<leader>br", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+			vim.keymap.set("n", "<leader>bb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+			vim.keymap.set("n", "<leader>bf", function()
+				require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
+					theme = "dropdown",
+				}))
+			end, { desc = "[/] Fuzzily search in current buffer" })
+			vim.keymap.set("n", "<leader>ss", require("telescope.builtin").builtin, { desc = "[S]earch [S]elect Telescope" })
+			vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
+			vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+			vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+			vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })		
+		end 
 	},
 })
 
