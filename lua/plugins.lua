@@ -52,37 +52,37 @@ require("lazy").setup({
 						lookahead = true,
 						keymaps = {
 							["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-							['iee'] = '@assignment.inner',
-							['iel'] = '@assignment.lhs',
-							['ae'] = '@assignment.outer',
-							['ier'] = '@assignment.rhs',
-							['ia'] = '@attribute.inner',
-							['aa'] = '@attribute.outer',
-							['ib'] = '@block.inner',
-							['ab'] = '@block.outer',
-							['ik'] = '@call.inner',
-							['ak'] = '@call.outer',
-							['io'] = '@comment.inner',
-							['ao'] = '@comment.outer',
-							['im'] = '@frame.inner',
-							['am'] = '@frame.outer',
-							['in'] = '@number.inner',
+							['ai'] = '@assignment.inner',
+							['al'] = '@assignment.lhs',
+							['ao'] = '@assignment.outer',
+							['ar'] = '@assignment.rhs',
+							['ati'] = '@attribute.inner',
+							['ata'] = '@attribute.outer',
+							['bi'] = '@block.inner',
+							['bo'] = '@block.outer',
+							['cli'] = '@call.inner',
+							['clo'] = '@call.outer',
+							['hi'] = '@comment.inner',
+							['ho'] = '@comment.outer',
+							['fri'] = '@frame.inner',
+							['fro'] = '@frame.outer',
+							['ni'] = '@number.inner',
 							['ix'] = '@regex.inner',
 							['ax'] = '@regex.outer',
-							['ir'] = '@return.inner',
-							['ar'] = '@return.outer',
+							['ri'] = '@return.inner',
+							['ro'] = '@return.outer',
 							['is'] = '@scopename.inner',
-							['as'] = '@statement.outer',
-							['av'] = '@parameter.outer',
-							['iv'] = '@parameter.inner',
-							['af'] = '@function.outer',
-							['if'] = '@function.inner',
-							['ac'] = '@class.outer',
-							['ic'] = '@class.inner',
-							['al'] = '@loop.outer',
-							['il'] = '@loop.inner',
-							['ai'] = '@conditional.outer',
-							['ii'] = '@conditional.inner',
+							['so'] = '@statement.outer',
+							['po'] = '@parameter.outer',
+							['pi'] = '@parameter.inner',
+							['fo'] = '@function.outer',
+							['fi'] = '@function.inner',
+							['ca'] = '@class.outer',
+							['co'] = '@class.inner',
+							['lo'] = '@loop.outer',
+							['li'] = '@loop.inner',
+							['co'] = '@conditional.outer',
+							['ci'] = '@conditional.inner',
 						},
 						-- You can choose the select mode (default is charwise 'v')
 						--
@@ -243,14 +243,8 @@ require("lazy").setup({
 
 	{
 		'saghen/blink.cmp',
-		-- optional: provides snippets for the snippet source
 		dependencies = { 'rafamadriz/friendly-snippets', "L3MON4D3/LuaSnip" },
-		-- use a release tag to download pre-built binaries
 		version = '1.*',
-		-- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
-		-- build = 'cargo build --release',
-		-- If you use nix, you can build from source using latest nightly rust with:
-		-- build = 'nix run .#build-plugin',
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
@@ -259,24 +253,15 @@ require("lazy").setup({
 				['<Up>'] = { 'select_prev', 'fallback' },
 				['<Down>'] = { 'select_next', 'fallback' },
 				['<Tab>'] = { 'select_and_accept', 'fallback'},
+				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation', 'fallback' }
 			},
 			appearance = {
-				-- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
-				-- Adjusts spacing to ensure icons are aligned
 				nerd_font_variant = 'mono'
 			},
-			-- (Default) Only show the documentation popup when manually triggered
-			completion = { documentation = { auto_show = false } },
-			-- Default list of enabled providers defined so that you can extend it
-			-- elsewhere in your config, without redefining it, due to `opts_extend`
+			completion = { documentation = { auto_show = true } },
 			sources = {
 				default = { 'lsp', 'path', 'snippets', 'buffer' },
 			},
-			-- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
-			-- You may use a lua implementation instead by using `implementation = "lua"` or fallback to the lua implementation,
-			-- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
-			--
-			-- See the fuzzy documentation for more information
 			fuzzy = { implementation = "prefer_rust_with_warning" }
 		},
 		opts_extend = { "sources.default" }
@@ -295,14 +280,17 @@ require("lazy").setup({
 			"neovim/nvim-lspconfig",
 		},
 	},
+
 	{
 		'echasnovski/mini.nvim',
 		version = '*',
 	},
+
 	{
 		'echasnovski/mini.jump2d',
 		version = '*',
 	},
+
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
@@ -373,11 +361,7 @@ require("lazy").setup({
 			end, {desc = '[W]idget [S]copes'})
 		end
 	},
-	{
-		"ThePrimeagen/harpoon",
-		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim" }
-	},
+	
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
@@ -387,20 +371,69 @@ require("lazy").setup({
 		},
 		config = function ()
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>br", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
+			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
 			vim.keymap.set("n", "<leader>bb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
 			vim.keymap.set("n", "<leader>bf", function()
 				require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
 					theme = "dropdown",
 				}))
 			end, { desc = "[/] Fuzzily search in current buffer" })
-			vim.keymap.set("n", "<leader>ss", require("telescope.builtin").builtin, { desc = "[S]earch [S]elect Telescope" })
+			vim.keymap.set("n", "<leader>bt", require("telescope.builtin").builtin, { desc = "[S]earch [S]elect Telescope" })
 			vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
-			vim.keymap.set("n", "<leader>sh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-			vim.keymap.set("n", "<leader>sg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-			vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-			vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })		
+			vim.keymap.set("n", "<leader>bh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>bg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
+			vim.keymap.set("n", "<leader>bd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
+			vim.keymap.set("n", "<leader>br", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })		
 		end 
+	},
+
+	{
+		"ThePrimeagen/harpoon",
+		branch = "harpoon2",
+		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
+		config = function()
+			local harpoon = require("harpoon")
+			harpoon:setup({
+				settings = {
+					save_on_toggle = true,
+					sync_on_ui_close = true,
+				},
+			})
+
+			local conf = require("telescope.config").values
+			local function toggle_telescope(harpoon_files)
+				local file_paths = {}
+				for _, item in ipairs(harpoon_files.items) do
+					table.insert(file_paths, item.value)
+				end
+				require("telescope.pickers").new({}, {
+					prompt_title = "Harpoon",
+					finder = require("telescope.finders").new_table({
+						results = file_paths,
+					}),
+					previewer = conf.file_previewer({}),
+					sorter = conf.generic_sorter({}),
+				}):find()
+			end
+
+			-- Keymaps (can also be placed in a separate file if you prefer clean separation)
+			vim.keymap.set("n", "<leader>ma", function() harpoon:list():add() end, { desc = '[A]ppends file to harpoon list' })
+			vim.keymap.set("n", "<leader>mu", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'Toggle harpoon menu' })
+			vim.keymap.set("n", "<leader>mt", function() toggle_telescope(harpoon:list()) end, { desc = "Telescope Harpoon files" })
+			-- go to specific hook
+			for i = 0, 9 do
+				vim.keymap.set("n", "<leader>i" .. i, function()
+					require("harpoon"):list():select(i)
+				end, { desc = "Go to Harpoon file " .. i })
+			end
+			-- go to next hook
+			vim.keymap.set("n", "<leader>mn", function() harpoon:list():next() end, { desc = "Harpoon next" })
+			vim.keymap.set("n", "<leader>mp", function() harpoon:list():prev() end, { desc = "Harpoon previous" })
+		end
+	},
+
+	{
+		"Vigemus/iron.nvim",
 	},
 })
 
