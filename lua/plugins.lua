@@ -238,7 +238,7 @@ require("lazy").setup({
 
 	{
 		"lewis6991/gitsigns.nvim",
-		opts = {}
+		opts = {},
 	},
 
 	{
@@ -399,7 +399,6 @@ require("lazy").setup({
 					sync_on_ui_close = true,
 				},
 			})
-
 			local conf = require("telescope.config").values
 			local function toggle_telescope(harpoon_files)
 				local file_paths = {}
@@ -415,17 +414,21 @@ require("lazy").setup({
 					sorter = conf.generic_sorter({}),
 				}):find()
 			end
-
 			-- Keymaps (can also be placed in a separate file if you prefer clean separation)
 			vim.keymap.set("n", "<leader>ma", function() harpoon:list():add() end, { desc = '[A]ppends file to harpoon list' })
 			vim.keymap.set("n", "<leader>mu", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'Toggle harpoon menu' })
 			vim.keymap.set("n", "<leader>mt", function() toggle_telescope(harpoon:list()) end, { desc = "Telescope Harpoon files" })
-			-- go to specific hook
-			for i = 0, 9 do
-				vim.keymap.set("n", "<leader>i" .. i, function()
-					require("harpoon"):list():select(i)
-				end, { desc = "Go to Harpoon file " .. i })
-			end
+			-- Jumps
+			vim.keymap.set("n", "<leader>0", function() harpoon:list():select(0) end, { desc = "Opens 0th(?) harpoon listing file" })
+			vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Opens first harpoon listing file" })
+			vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Opens second harpoon listing file" })
+			vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Opens third harpoon listing file" })
+			vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Opens fourt harpoon listing file" })
+			vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Opens fifth harpoon listing file" })
+			vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { desc = "Opens sixth harpoon listing file" })
+			vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end, { desc = "Opens seventh harpoon listing file" })
+			vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end, { desc = "Opens eighth harpoon listing file" })
+			vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc = "Opens ninth harpoon listing file" })
 			-- go to next hook
 			vim.keymap.set("n", "<leader>mn", function() harpoon:list():next() end, { desc = "Harpoon next" })
 			vim.keymap.set("n", "<leader>mp", function() harpoon:list():prev() end, { desc = "Harpoon previous" })
@@ -433,8 +436,104 @@ require("lazy").setup({
 	},
 
 	{
-		"Vigemus/iron.nvim",
+		"benlubas/molten-nvim",
+		version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+		build = ":UpdateRemotePlugins",
+		dependencies = { "3rd/image.nvim" },
+		init = function()
+			-- this is an example, not a default. Please see the readme for more configuration options
+			vim.g.molten_image_provider = "image.nvim"
+			vim.g.molten_output_win_max_height = 20
+		end,
+	},
+
+	{
+        -- see the image.nvim readme for more information about configuring this plugin
+        "3rd/image.nvim",
+        opts = {
+            backend = "kitty", -- whatever backend you would like to use
+            max_width = 100,
+            max_height = 12,
+            max_height_window_percentage = math.huge,
+            max_width_window_percentage = math.huge,
+            window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+        },
+	},
+
+	{
+		"nvim-tree/nvim-tree.lua",
+		dependencies = "nvim-tree/nvim-web-devicons",
+		config = function()
+			local nvimtree = require("nvim-tree")
+
+			-- recommended settings from nvim-tree documentation
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
+
+			nvimtree.setup({
+				view = {
+					width = 35,
+					relativenumber = true,
+				},
+				-- change folder arrow icons
+				renderer = {
+					indent_markers = {
+						enable = true,
+					},
+					icons = {
+						glyphs = {
+							folder = {
+								arrow_closed = "", -- arrow when folder is closed
+								arrow_open = "", -- arrow when folder is open
+							},
+						},
+					},
+				},
+				-- disable window_picker for
+				-- explorer to work well with
+				-- window splits
+				actions = {
+					open_file = {
+						window_picker = {
+							enable = false,
+						},
+					},
+				},
+				filters = {
+					custom = { ".DS_Store" },
+				},
+				git = {
+					ignore = false,
+				},
+			})
+
+			-- set keymaps
+			local keymap = vim.keymap -- for conciseness
+
+			keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Toggle file explorer" }) -- toggle file explorer
+			keymap.set("n", "<leader>xf", "<cmd>NvimTreeFindFileToggle<CR>", { desc = "Toggle file explorer on current file" }) -- toggle file explorer on current file
+			keymap.set("n", "<leader>xc", "<cmd>NvimTreeCollapse<CR>", { desc = "Collapse file explorer" }) -- collapse file explorer
+			keymap.set("n", "<leader>xr", "<cmd>NvimTreeRefresh<CR>", { desc = "Refresh file explorer" }) -- refresh file explorer
+		end
+	},
+
+	{
+		"mg979/vim-visual-multi"
+	},
+
+	{
+		"goolord/alpha-nvim",
+		-- dependencies = { 'echasnovski/mini.icons' },
+		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		config = function()
+			local startify = require("alpha.themes.startify")
+			-- available: devicons, mini, default is mini
+			-- if provider not loaded and enabled is true, it will try to use another provider
+			startify.file_icons.provider = "devicons"
+			require("alpha").setup(
+				startify.config
+			)
+		end,
 	},
 })
-
-

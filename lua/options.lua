@@ -18,7 +18,6 @@ vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
 vim.g.netrw_indent = 3
 
 -- Remaps
-vim.keymap.set("n", "<leader>e", vim.cmd.Ex, { desc = 'Return to [Ex]plorer' })
 vim.keymap.set("n", "zj", vim.cmd.w, { desc = '[S]ave' })
 vim.keymap.set("n", "zk", vim.cmd.q, { desc = '[Q]uits' })
 vim.keymap.set("n", "<leader><CR>", "i<CR><C-c>", { desc = 'Adds a newline at cursor position' })
