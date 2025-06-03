@@ -13,6 +13,10 @@ vim.opt.termguicolors = true
 vim.opt.shell = "/bin/zsh"
 vim.keymap.set('n','<Esc>','<cmd>nohlsearch<CR>')
 
+-- split
+vim.keymap.set("n", "<leader>sv", ":split<CR>", { desc = "split vertically" })
+vim.keymap.set("n", "<leader>sh", ":vsplit<CR>", { desc = "split horizontally" })
+
 -- netrw
 vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
 vim.g.netrw_indent = 3
