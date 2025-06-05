@@ -446,21 +446,7 @@ require("lazy").setup({
 			vim.g.molten_output_win_max_height = 20
 		end,
 	},
-
-	{
-        -- see the image.nvim readme for more information about configuring this plugin
-        "3rd/image.nvim",
-        opts = {
-            backend = "kitty", -- whatever backend you would like to use
-            max_width = 100,
-            max_height = 12,
-            max_height_window_percentage = math.huge,
-            max_width_window_percentage = math.huge,
-            window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-        },
-	},
-
+	
 	{
 		"nvim-tree/nvim-tree.lua",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -523,21 +509,64 @@ require("lazy").setup({
 	},
 
 	{
-		"goolord/alpha-nvim",
-		-- dependencies = { 'echasnovski/mini.icons' },
-		dependencies = { 'nvim-tree/nvim-web-devicons' },
+		"rmagatti/auto-session",
 		config = function()
-			local startify = require("alpha.themes.startify")
-			-- available: devicons, mini, default is mini
-			-- if provider not loaded and enabled is true, it will try to use another provider
-			startify.file_icons.provider = "devicons"
-			require("alpha").setup(
-				startify.config
-			)
+			local auto_session = require("auto-session")
+			auto_session.setup({
+				auto_restore_enabled = false,
+				auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
+			})
+			local keymap = vim.keymap
+			keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
+			keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
+		end,
+	},
+	
+	{
+		"goolord/alpha-nvim",
+		event = "VimEnter",
+		config = function()
+			local alpha = require("alpha")
+			local dashboard = require("alpha.themes.dashboard")
+			-- Set header
+			dashboard.section.header.val = {
+				"                                                     ",
+				"  ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗ ",
+				"  ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║ ",
+				"  ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║ ",
+				"  ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║ ",
+				"  ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║ ",
+				"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
+				"                                                     ",
+			}
+			-- Set menu
+			dashboard.section.buttons.val = {
+				dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
+				dashboard.button("SPC ee", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
+				dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
+				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
+				dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
+				dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
+			}
+			-- Send config to alpha
+			alpha.setup(dashboard.opts)
+			-- Disable folding on alpha buffer
+			vim.cmd([[autocmd FileType alpha setlocal nofoldenable]])
 		end,
 	},
 
 	{
 		"christoomey/vim-tmux-navigator"
 	},
+
+	{
+		"folke/snacks.nvim",
+		---@type snacks.Config
+		opts = {
+			image = {
+				enabled = true,
+			},
+		},
+	},
+
 })
