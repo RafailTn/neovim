@@ -243,7 +243,10 @@ require("lazy").setup({
 
 	{
 		'saghen/blink.cmp',
-		dependencies = { 'rafamadriz/friendly-snippets', "L3MON4D3/LuaSnip" },
+		dependencies = { 
+			'rafamadriz/friendly-snippets', 
+			"L3MON4D3/LuaSnip",
+		},
 		version = '1.*',
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
@@ -261,7 +264,7 @@ require("lazy").setup({
 			completion = { documentation = { auto_show = true } },
 			sources = {
 				default = { 'lsp', 'path', 'snippets', 'buffer' },
-			},
+						},
 			fuzzy = { implementation = "prefer_rust_with_warning" }
 		},
 		opts_extend = { "sources.default" }
@@ -542,7 +545,7 @@ require("lazy").setup({
 			-- Set menu
 			dashboard.section.buttons.val = {
 				dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
-				dashboard.button("SPC ee", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
+				dashboard.button("SPC e", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
 				dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
 				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
 				dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
@@ -567,6 +570,13 @@ require("lazy").setup({
 				enabled = true,
 			},
 		},
+	},
+
+	{
+		"supermaven-inc/supermaven-nvim",
+		config = function()
+			require("supermaven-nvim").setup({})
+		end,
 	},
 
 })
