@@ -241,33 +241,56 @@ require("lazy").setup({
 		opts = {},
 	},
 
+--	{
+--		'saghen/blink.cmp',
+--		dependencies = { 
+--			'rafamadriz/friendly-snippets', 
+--			"L3MON4D3/LuaSnip",
+--		},
+--		version = '1.*',
+--		---@module 'blink.cmp'
+--		---@type blink.cmp.Config
+--		opts = {
+--			keymap = { 
+--				preset = 'none',
+--				['<Up>'] = { 'select_prev', 'fallback' },
+--				['<Down>'] = { 'select_next', 'fallback' },
+--				['<Tab>'] = { 'select_and_accept', 'fallback'},
+--				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation', 'fallback' }
+--			},
+--			appearance = {
+--				nerd_font_variant = 'mono'
+--			},
+--			completion = { documentation = { auto_show = true } },
+--			sources = {
+--				default = { 'lsp', 'path', 'snippets', 'buffer' },
+--			},
+--			fuzzy = { implementation = "prefer_rust_with_warning" }
+--		},
+--		opts_extend = { "sources.default" }
+--	},
+
 	{
-		'saghen/blink.cmp',
-		dependencies = { 
-			'rafamadriz/friendly-snippets', 
-			"L3MON4D3/LuaSnip",
-		},
-		version = '1.*',
-		---@module 'blink.cmp'
-		---@type blink.cmp.Config
-		opts = {
-			keymap = { 
-				preset = 'none',
-				['<Up>'] = { 'select_prev', 'fallback' },
-				['<Down>'] = { 'select_next', 'fallback' },
-				['<Tab>'] = { 'select_and_accept', 'fallback'},
-				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation', 'fallback' }
+		"saghen/blink.cmp",
+		event = "VimEnter",
+		version = "1.*",
+		dependencies = {
+			-- Snippet Engine
+			{
+				"L3MON4D3/LuaSnip",
+				version = "2.*",
+				dependencies = {
+					{
+						"rafamadriz/friendly-snippets",
+						config = function()
+							require("luasnip.loaders.from_vscode").lazy_load()
+						end,
+					},
+				},
+				opts = {},
 			},
-			appearance = {
-				nerd_font_variant = 'mono'
-			},
-			completion = { documentation = { auto_show = true } },
-			sources = {
-				default = { 'lsp', 'path', 'snippets', 'buffer' },
-						},
-			fuzzy = { implementation = "prefer_rust_with_warning" }
+			"folke/lazydev.nvim",
 		},
-		opts_extend = { "sources.default" }
 	},
 
 	{
@@ -393,49 +416,8 @@ require("lazy").setup({
 	{
 		"ThePrimeagen/harpoon",
 		branch = "harpoon2",
-		dependencies = { "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
-		config = function()
-			local harpoon = require("harpoon")
-			harpoon:setup({
-				settings = {
-					save_on_toggle = true,
-					sync_on_ui_close = true,
-				},
-			})
-			local conf = require("telescope.config").values
-			local function toggle_telescope(harpoon_files)
-				local file_paths = {}
-				for _, item in ipairs(harpoon_files.items) do
-					table.insert(file_paths, item.value)
-				end
-				require("telescope.pickers").new({}, {
-					prompt_title = "Harpoon",
-					finder = require("telescope.finders").new_table({
-						results = file_paths,
-					}),
-					previewer = conf.file_previewer({}),
-					sorter = conf.generic_sorter({}),
-				}):find()
-			end
-			-- Keymaps (can also be placed in a separate file if you prefer clean separation)
-			vim.keymap.set("n", "<leader>ma", function() harpoon:list():add() end, { desc = '[A]ppends file to harpoon list' })
-			vim.keymap.set("n", "<leader>mu", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end, { desc = 'Toggle harpoon menu' })
-			vim.keymap.set("n", "<leader>mt", function() toggle_telescope(harpoon:list()) end, { desc = "Telescope Harpoon files" })
-			-- Jumps
-			vim.keymap.set("n", "<leader>0", function() harpoon:list():select(0) end, { desc = "Opens 0th(?) harpoon listing file" })
-			vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end, { desc = "Opens first harpoon listing file" })
-			vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end, { desc = "Opens second harpoon listing file" })
-			vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end, { desc = "Opens third harpoon listing file" })
-			vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end, { desc = "Opens fourt harpoon listing file" })
-			vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end, { desc = "Opens fifth harpoon listing file" })
-			vim.keymap.set("n", "<leader>6", function() harpoon:list():select(6) end, { desc = "Opens sixth harpoon listing file" })
-			vim.keymap.set("n", "<leader>7", function() harpoon:list():select(7) end, { desc = "Opens seventh harpoon listing file" })
-			vim.keymap.set("n", "<leader>8", function() harpoon:list():select(8) end, { desc = "Opens eighth harpoon listing file" })
-			vim.keymap.set("n", "<leader>9", function() harpoon:list():select(9) end, { desc = "Opens ninth harpoon listing file" })
-			-- go to next hook
-			vim.keymap.set("n", "<leader>mn", function() harpoon:list():next() end, { desc = "Harpoon next" })
-			vim.keymap.set("n", "<leader>mp", function() harpoon:list():prev() end, { desc = "Harpoon previous" })
-		end
+		commit = "e76cb03",
+		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
 	{
@@ -574,11 +556,11 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		"supermaven-inc/supermaven-nvim",
-		config = function()
-			require("supermaven-nvim").setup({})
-		end,
-	},
+--	{
+--		"supermaven-inc/supermaven-nvim",
+--		config = function()
+--			require("supermaven-nvim").setup({})
+--		end,
+--	},
 
 })
