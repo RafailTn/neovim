@@ -442,10 +442,10 @@ require("lazy").setup({
 		"benlubas/molten-nvim",
 		version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
 		build = ":UpdateRemotePlugins",
-		dependencies = { "3rd/image.nvim" },
+		dependencies = { "folke/snacks.nvim" },
 		init = function()
 			-- this is an example, not a default. Please see the readme for more configuration options
-			vim.g.molten_image_provider = "image.nvim"
+			vim.g.molten_image_provider = "snacks.nvim"
 			vim.g.molten_output_win_max_height = 20
 		end,
 	},
@@ -542,11 +542,13 @@ require("lazy").setup({
 				"  ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝ ",
 				"                                                     ",
 			}
+			vim.cmd([[highlight AlphaHeader guifg=#98c379]])
+			dashboard.section.header.opts.hl = "AlphaHeader"
 			-- Set menu
 			dashboard.section.buttons.val = {
 				dashboard.button("e", "  > New File", "<cmd>ene<CR>"),
 				dashboard.button("SPC e", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
-				dashboard.button("SPC ff", "󰱼  > Find File", "<cmd>Telescope find_files<CR>"),
+				dashboard.button("SPC fr", "󰱼  > Find Recent File", require("telescope.builtin").oldfiles),
 				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
 				dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
 				dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),

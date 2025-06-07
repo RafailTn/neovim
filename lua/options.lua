@@ -57,3 +57,4 @@ vim.keymap.set("n", '<leader>gb', ":Git branch<CR>:Git checkout ", { desc = 'Git
 
 -- Tree sitter parser
 vim.keymap.set("n", "<leader>`", vim.cmd.InspectTree, { desc = "Tree sitter parser pane" })
+vim.keymap.set("n", "<leader>ir", ":bdelete<CR>", { desc = "Close all buffers" })
