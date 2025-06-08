@@ -10,9 +10,9 @@ vim.opt.scrolloff = 999
 vim.opt.virtualedit = "block"    
 vim.opt.ignorecase = true        
 vim.opt.termguicolors = true     
-vim.opt.shell = "/bin/zsh"
+vim.opt.shell = "/opt/homebrew/bin/fish"
 vim.keymap.set('n','<Esc>','<cmd>nohlsearch<CR>')
-
+vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
 -- split
 vim.keymap.set("n", "<leader>sv", ":split<CR>", { desc = "split vertically" })
 vim.keymap.set("n", "<leader>sh", ":vsplit<CR>", { desc = "split horizontally" })
