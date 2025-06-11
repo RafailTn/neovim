@@ -19,7 +19,16 @@ require("lazy").setup({
 		priority = 1000,
 		opts = {
 			style = "moon",         
-			transparent = true,      
+			transparent = true,
+			on_highlights = function(hl, c)
+				-- Variables and identifiers
+				hl["@variable"] = { fg = c.orange }
+				hl.NvimTreeNormal = { bg = "NONE" }
+				hl.NvimTreeNormalNC = { bg = "NONE" }
+				hl.NvimTreeEndOfBuffer = { bg = "NONE" }
+				hl.NvimTreeWinSeparator = { bg = "NONE", fg = c.border }
+				hl.NvimTreeVertSplit = { bg = "NONE", fg = c.border }
+			end,
 		},
 		config = function(_, opts)
 			require("tokyonight").setup(opts)
@@ -215,10 +224,6 @@ require("lazy").setup({
 	},
 
 	{
-		"neovim/nvim-lspconfig",
-	},
-
-	{
 		"folke/which-key.nvim",
 		opts = {},
 	},
@@ -244,35 +249,6 @@ require("lazy").setup({
 		"lewis6991/gitsigns.nvim",
 		opts = {},
 	},
-
---	{
---		'saghen/blink.cmp',
---		dependencies = { 
---			'rafamadriz/friendly-snippets', 
---			"L3MON4D3/LuaSnip",
---		},
---		version = '1.*',
---		---@module 'blink.cmp'
---		---@type blink.cmp.Config
---		opts = {
---			keymap = { 
---				preset = 'none',
---				['<Up>'] = { 'select_prev', 'fallback' },
---				['<Down>'] = { 'select_next', 'fallback' },
---				['<Tab>'] = { 'select_and_accept', 'fallback'},
---				['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation', 'fallback' }
---			},
---			appearance = {
---				nerd_font_variant = 'mono'
---			},
---			completion = { documentation = { auto_show = true } },
---			sources = {
---				default = { 'lsp', 'path', 'snippets', 'buffer' },
---			},
---			fuzzy = { implementation = "prefer_rust_with_warning" }
---		},
---		opts_extend = { "sources.default" }
---	},
 
 	{
 		"saghen/blink.cmp",
@@ -611,5 +587,9 @@ require("lazy").setup({
 --			require("supermaven-nvim").setup({})
 --		end,
 --	},
+
+	{
+		"ThePrimeagen/vim-be-good"
+	},
 
 })
