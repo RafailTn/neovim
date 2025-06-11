@@ -625,7 +625,7 @@ require("lazy").setup({
 		dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
 		opts = function()
 			local nn = require "notebook-navigator"
-			local opts = { custom_textobjects = { n = nn.miniai_spec } }
+			local opts = { custom_textobjects = { h = nn.miniai_spec } }
 			return opts
 		end,
 	},
