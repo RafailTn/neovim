@@ -69,16 +69,16 @@ require("lazy").setup({
 							['al'] = '@assignment.lhs',
 							['ao'] = '@assignment.outer',
 							['ar'] = '@assignment.rhs',
-							['ati'] = '@attribute.inner',
-							['ata'] = '@attribute.outer',
+							['ui'] = '@attribute.inner',
+							['ua'] = '@attribute.outer',
 							['bi'] = '@block.inner',
 							['bo'] = '@block.outer',
 							['cli'] = '@call.inner',
 							['clo'] = '@call.outer',
 							['hi'] = '@comment.inner',
 							['ho'] = '@comment.outer',
-							['fri'] = '@frame.inner',
-							['fro'] = '@frame.outer',
+							['mi'] = '@frame.inner',
+							['mo'] = '@frame.outer',
 							['ni'] = '@number.inner',
 							['ix'] = '@regex.inner',
 							['ax'] = '@regex.outer',
@@ -90,12 +90,12 @@ require("lazy").setup({
 							['pi'] = '@parameter.inner',
 							['fo'] = '@function.outer',
 							['fi'] = '@function.inner',
-							['ca'] = '@class.outer',
-							['co'] = '@class.inner',
+							['co'] = '@class.outer',
+							['ci'] = '@class.inner',
 							['lo'] = '@loop.outer',
 							['li'] = '@loop.inner',
-							['co'] = '@conditional.outer',
-							['ci'] = '@conditional.inner',
+							['io'] = '@conditional.outer',
+							['ii'] = '@conditional.inner',
 						},
 						-- You can choose the select mode (default is charwise 'v')
 						--
@@ -590,6 +590,44 @@ require("lazy").setup({
 
 	{
 		"ThePrimeagen/vim-be-good"
+	},
+
+	{
+		"GCBallesteros/jupytext.nvim",
+		config = true,
+		-- Depending on your nvim distro or config you may need to make the loading not lazy
+		-- lazy=false,
+	},
+
+	{
+		"GCBallesteros/NotebookNavigator.nvim",
+		keys = {
+			{ "<leader>d", function() require("notebook-navigator").move_cell "d" end },
+			{ "<leader>u", function() require("notebook-navigator").move_cell "u" end },
+			{ "<leader>z", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
+			{ "<leader>Z", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
+			{ "<leader>ra", "<cmd>lua require('notebook-navigator').run_all_cells()<cr>", desc = "Run all cells" },
+			{ "<leader>rb", "<cmd>lua require('notebook-navigator').run_cells_below()<cr>", desc = "Run current and cells below" },
+			{ "<leader>ab", "<cmd>lua require('notebook-navigator').add_cell_below()<cr>", desc = "Add cell below" },
+			{ "<leader>aa", "<cmd>lua require('notebook-navigator').add_cell_above()<cr>", desc = "Add cell above" },
+			{ "<leader>sn", "<cmd>lua require('notebook-navigator').split_cell()<cr>", desc = "Split cell at cursor" },
+		},
+		dependencies = {
+			"echasnovski/mini.comment",
+			"benlubas/molten-nvim", -- alternative repl provider
+		},
+		event = "VeryLazy",
+	},
+
+	{
+		"echasnovski/mini.ai",
+		event = "VeryLazy",
+		dependencies = { "GCBallesteros/NotebookNavigator.nvim" },
+		opts = function()
+			local nn = require "notebook-navigator"
+			local opts = { custom_textobjects = { n = nn.miniai_spec } }
+			return opts
+		end,
 	},
 
 })
