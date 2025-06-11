@@ -10,7 +10,7 @@ vim.api.nvim_create_autocmd("User", {
     map("n", "<leader>mi", "<cmd>MoltenInit<cr>", { desc = "Initialize Molten" })
     map("n", "<leader>le", "<cmd>MoltenEvaluateOperator<cr>", { desc = "Molten: Evaluate operator" })
     map("n", "<leader>ll", "<cmd>MoltenEvaluateLine<cr>", { desc = "Molten: Evaluate line" })
-	map("n", "<leader>lv", "<cmd>MoltenEvaluateVisual<cr>gv", { desc = "Molten: Evaluate line" })
+	map("v", "<leader>ls", ":<C-u>MoltenEvaluateVisual<cr>", { desc = "Molten: Evaluate Visual Selection" })
     map("n", "<leader>ld", "<cmd>MoltenDelete<cr>", { desc = "Molten: Delete cell output" })
     map("n", "<leader>lh", "<cmd>MoltenHideOutput<cr>", { desc = "Molten: Hide output" })
     map("n", "<leader>lo", "<cmd>MoltenShowOutput<cr>", { desc = "Molten: Show output" })
