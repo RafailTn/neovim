@@ -59,44 +59,44 @@ require("lazy").setup({
 					},
 				},
 				textobjects = {
-					select = {
-						enable = true,
-						-- Automatically jump forward to textobj, similar to targets.vim
-						lookahead = true,
-						keymaps = {
-							["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-							['ai'] = '@assignment.inner',
-							['al'] = '@assignment.lhs',
-							['ao'] = '@assignment.outer',
-							['ar'] = '@assignment.rhs',
-							['ui'] = '@attribute.inner',
-							['ua'] = '@attribute.outer',
-							['bi'] = '@block.inner',
-							['bo'] = '@block.outer',
-							['cli'] = '@call.inner',
-							['clo'] = '@call.outer',
-							['hi'] = '@comment.inner',
-							['ho'] = '@comment.outer',
-							['mi'] = '@frame.inner',
-							['mo'] = '@frame.outer',
-							['ni'] = '@number.inner',
-							['ix'] = '@regex.inner',
-							['ax'] = '@regex.outer',
-							['ri'] = '@return.inner',
-							['ro'] = '@return.outer',
-							['is'] = '@scopename.inner',
-							['so'] = '@statement.outer',
-							['po'] = '@parameter.outer',
-							['pi'] = '@parameter.inner',
-							['fo'] = '@function.outer',
-							['fi'] = '@function.inner',
-							['co'] = '@class.outer',
-							['ci'] = '@class.inner',
-							['lo'] = '@loop.outer',
-							['li'] = '@loop.inner',
-							['io'] = '@conditional.outer',
-							['ii'] = '@conditional.inner',
-						},
+					--select = {
+					--	enable = true,
+					--	-- Automatically jump forward to textobj, similar to targets.vim
+					--	lookahead = true,
+					--	keymaps = {
+					--		["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
+					--		['ai'] = '@assignment.inner',
+					--		['al'] = '@assignment.lhs',
+					--		['ao'] = '@assignment.outer',
+					--		['ar'] = '@assignment.rhs',
+					--		['ui'] = '@attribute.inner',
+					--		['ua'] = '@attribute.outer',
+					--		['bi'] = '@block.inner',
+					--		['bo'] = '@block.outer',
+					--		['cli'] = '@call.inner',
+					--		['clo'] = '@call.outer',
+					--		['hi'] = '@comment.inner',
+					--		['ho'] = '@comment.outer',
+					--		['mi'] = '@frame.inner',
+					--		['mo'] = '@frame.outer',
+					--		['ni'] = '@number.inner',
+					--		['ix'] = '@regex.inner',
+					--		['ax'] = '@regex.outer',
+					--		['ri'] = '@return.inner',
+					--		['ro'] = '@return.outer',
+					--		['is'] = '@scopename.inner',
+					--		['so'] = '@statement.outer',
+					--		['po'] = '@parameter.outer',
+					--		['pi'] = '@parameter.inner',
+					--		['fo'] = '@function.outer',
+					--		['fi'] = '@function.inner',
+					--		['co'] = '@class.outer',
+					--		['ci'] = '@class.inner',
+					--		['lo'] = '@loop.outer',
+					--		['li'] = '@loop.inner',
+					--		['io'] = '@conditional.outer',
+					--		['ii'] = '@conditional.inner',
+					--	},
 						-- You can choose the select mode (default is charwise 'v')
 						--
 						-- Can also be a function which gets passed a table with the keys
@@ -104,13 +104,13 @@ require("lazy").setup({
 						-- * method: eg 'v' or 'o'
 						-- and should return the mode ('v', 'V', or '<c-v>') or a table
 						-- mapping query_strings to modes.
-						selection_modes = {
-							['@parameter.outer'] = 'v', -- charwise
-							['@function.outer'] = 'V', -- linewise
-							['@class.outer'] = '<c-v>', -- blockwise
-						},
-						include_surrounding_whitespace = true,
-					},
+				--		selection_modes = {
+				--			['@parameter.outer'] = 'v', -- charwise
+				--			['@function.outer'] = 'V', -- linewise
+				--			['@class.outer'] = '<c-v>', -- blockwise
+				--		},
+				--		include_surrounding_whitespace = true,
+				--	},
 					move = {
 						enable = true,
 						set_jumps = true, -- whether to set jumps in the jumplist
@@ -192,10 +192,10 @@ require("lazy").setup({
 							['<leader>jr'] = '@return.inner',
 							['<leader>js'] = '@statement.inner',
 							['<leader>jp'] = '@parameter.inner',
-							['<leader>jf'] = '@function.inner',
-							['<leader>jc'] = '@class.inner',
-							['<leader>jl'] = '@loop.inner',
-							['<leader>ji'] = '@conditional.inner',
+							['<leader>jf'] = '@function.outer',
+							['<leader>jc'] = '@class.outer',
+							['<leader>jl'] = '@loop.outer',
+							['<leader>ji'] = '@conditional.outer',
 						},
 						swap_previous = {
 							['<leader>ke'] = '@assignment.inner',
@@ -208,10 +208,10 @@ require("lazy").setup({
 							['<leader>kr'] = '@return.inner',
 							['<leader>ks'] = '@statement.inner',
 							['<leader>kp'] = '@parameter.inner',
-							['<leader>kf'] = '@function.inner',
-							['<leader>kc'] = '@class.inner',
-							['<leader>kl'] = '@loop.inner',
-							['<leader>ki'] = '@conditional.inner',
+							['<leader>kf'] = '@function.outer',
+							['<leader>kc'] = '@class.outer',
+							['<leader>kl'] = '@loop.outer',
+							['<leader>ki'] = '@conditional.outer',
 						},
 					},
 				},
@@ -226,12 +226,6 @@ require("lazy").setup({
 	{
 		"folke/which-key.nvim",
 		opts = {},
-	},
-
-	{
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = true,
 	},
 
 	{
@@ -289,11 +283,6 @@ require("lazy").setup({
 
 	{
 		'echasnovski/mini.nvim',
-		version = '*',
-	},
-
-	{
-		'echasnovski/mini.jump2d',
 		version = '*',
 	},
 
