@@ -13,9 +13,6 @@ vim.opt.termguicolors = true
 vim.opt.shell = "/opt/homebrew/bin/fish"
 vim.keymap.set('n','<Esc>','<cmd>nohlsearch<CR>')
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
--- split
-vim.keymap.set("n", "<leader>sv", ":split<CR>", { desc = "split vertically" })
-vim.keymap.set("n", "<leader>sh", ":vsplit<CR>", { desc = "split horizontally" })
 
 -- netrw
 vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
@@ -57,3 +54,39 @@ vim.keymap.set("n", '<leader>gb', ":Git branch<CR>:Git checkout ", { desc = 'Git
 
 -- Tree sitter parser
 vim.keymap.set("n", "<leader>`", vim.cmd.InspectTree, { desc = "Tree sitter parser pane" })
+
+vim.api.nvim_create_autocmd('TextYankPost',{
+	desc = 'Highlight when copying text',
+	group = vim.api.nvim_create_augroup('Highlight-yank', {clear=true}),
+	callback = function ()
+		vim.highlight.on_yank()
+	end,
+})
+
+vim.keymap.set("n", "<leader>n", function()
+  local file = vim.fn.expand("%")
+  local filetype = vim.bo.filetype
+  local run_cmd = nil
+  if filetype == "python" then
+    run_cmd = "python3 " .. file
+  elseif filetype == "sh" or filetype == "bash" then
+    run_cmd = "bash " .. file
+  end
+  if run_cmd then
+    vim.cmd("split | terminal " .. run_cmd)
+  else
+    print("No run command set for filetype: " .. filetype)
+  end
+end, { desc = "Run current file in terminal" })
+
+-- -- Search for system clipboard content
+-- vim.keymap.set('n', '<leader>sf', function()
+--   local clipboard_content = vim.fn.getreg('+')
+--   if clipboard_content and clipboard_content ~= '' then
+--     -- Escape special characters for search
+--     local escaped = vim.fn.escape(clipboard_content, '/\\[]~')
+--     vim.cmd('/' .. escaped)
+--   else
+--     print("Clipboard is empty")
+--   end
+-- end, { desc = "Search for clipboard content" })

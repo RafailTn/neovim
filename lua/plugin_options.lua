@@ -13,7 +13,7 @@ require('lualine').setup(
 	},
 	sections = {
 		lualine_a = {'mode'},
-		lualine_b = {'branch', 'diff', { 'diagnostics', symbols = { error = ' ', warn = ' ', info = ' ', hint = ' '}, sources = { "nvim_diagnostic" } } },
+		lualine_b = {'branch', { 'diagnostics', symbols = { error = ' ', warn = ' ', info = ' ', hint = ' '}, sources = { "nvim_diagnostic" } } },
 		lualine_c = {'filename'},
 		lualine_x = {'encoding', 'fileformat', 'filetype'},
 		-- Progress and total file size
