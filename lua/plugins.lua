@@ -28,6 +28,11 @@ require("lazy").setup({
 				hl.NvimTreeEndOfBuffer = { bg = "NONE" }
 				hl.NvimTreeWinSeparator = { bg = "NONE", fg = c.border }
 				hl.NvimTreeVertSplit = { bg = "NONE", fg = c.border }
+				-- ADD THESE LINES FOR LSP SEMANTIC HIGHLIGHTING:
+				hl["@lsp.type.variable.python"] = { fg = c.yellow }     -- Keep orange for variables (matches your @variable)
+				hl["@lsp.type.function.python"] = { fg = c.blue }       -- Blue for functions
+				hl["@lsp.type.method.python"] = { fg = c.blue }         -- Blue for methods
+				hl["@lsp.type.namespace.python"] = { fg = c.red }    -- Purple for imports like 'np'
 			end,
 		},
 		config = function(_, opts)
