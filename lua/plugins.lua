@@ -14,30 +14,39 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
 	{
-		"folke/tokyonight.nvim",
+		"navarasu/onedark.nvim",
 		lazy = false,
 		priority = 1000,
 		opts = {
-			style = "moon",         
+			style = "darker",         
 			transparent = true,
+			colors = {
+				blue = "#61afef",
+				deep_blue = "#0077cc",
+				orange = "#d19a66",
+				pink = "#ff00ff",
+				bright_orange = "#ff8800",
+				deep_red = "#be5046"
+			},
+			highlights = {
+				["@lsp.type.variable"] = {fg = "$orange"},
+				["@lsp.type.namespace.python"] = {fg = "$deep_red"},
+				["@lsp.type.class.python"] = {fg = "$deep_red"},
+				["@number"] = {fg="$blue"},
+				["@lsp.type.method.python"] = {fg = "$deep_blue"}
+			},
 			on_highlights = function(hl, c)
 				-- Variables and identifiers
-				hl["@variable"] = { fg = c.orange }
 				hl.NvimTreeNormal = { bg = "NONE" }
 				hl.NvimTreeNormalNC = { bg = "NONE" }
 				hl.NvimTreeEndOfBuffer = { bg = "NONE" }
 				hl.NvimTreeWinSeparator = { bg = "NONE", fg = c.border }
 				hl.NvimTreeVertSplit = { bg = "NONE", fg = c.border }
-				-- ADD THESE LINES FOR LSP SEMANTIC HIGHLIGHTING:
-				hl["@lsp.type.variable.python"] = { fg = c.yellow }     -- Keep orange for variables (matches your @variable)
-				hl["@lsp.type.function.python"] = { fg = c.blue }       -- Blue for functions
-				hl["@lsp.type.method.python"] = { fg = c.blue }         -- Blue for methods
-				hl["@lsp.type.namespace.python"] = { fg = c.red }    -- Purple for imports like 'np'
 			end,
 		},
 		config = function(_, opts)
-			require("tokyonight").setup(opts)
-			vim.cmd.colorscheme("tokyonight")
+			require("onedark").setup(opts)
+			vim.cmd.colorscheme("onedark")
 		end,
 	},
 
