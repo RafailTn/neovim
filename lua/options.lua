@@ -79,6 +79,16 @@ vim.keymap.set("n", "<leader>n", function()
   end
 end, { desc = "Run current file in terminal" })
 
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "tex",
+  callback = function()
+    vim.opt_local.wrap = true         -- enables wrapping
+    vim.opt_local.linebreak = true    -- breaks lines at word boundaries
+    vim.opt_local.breakindent = true  -- maintains indent on wrapped lines
+  end,
+})
+
+
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
 --   local clipboard_content = vim.fn.getreg('+')

@@ -493,20 +493,6 @@ require("lazy").setup({
 	},
 
 	{
-		"rmagatti/auto-session",
-		config = function()
-			local auto_session = require("auto-session")
-			auto_session.setup({
-				auto_restore_enabled = false,
-				auto_session_suppress_dirs = { "~/", "~/Dev/", "~/Downloads", "~/Documents", "~/Desktop/" },
-			})
-			local keymap = vim.keymap
-			keymap.set("n", "<leader>wr", "<cmd>SessionRestore<CR>", { desc = "Restore session for cwd" }) -- restore last workspace session for current directory
-			keymap.set("n", "<leader>ws", "<cmd>SessionSave<CR>", { desc = "Save session for auto session root dir" }) -- save workspace session for current working directory
-		end,
-	},
-	
-	{
 		"goolord/alpha-nvim",
 		event = "VimEnter",
 		config = function()
@@ -538,7 +524,6 @@ require("lazy").setup({
 				dashboard.button("SPC e", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
 				dashboard.button("SPC fr", "󰱼  > Find Recent File", require("telescope.builtin").oldfiles),
 				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
-				dashboard.button("SPC wr", "󰁯  > Restore Session For Current Directory", "<cmd>SessionRestore<CR>"),
 				dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
 			}
 			-- Send config to alpha
@@ -551,16 +536,6 @@ require("lazy").setup({
 	{
 		"christoomey/vim-tmux-navigator"
 	},
-
---	{
---		"folke/snacks.nvim",
---		---@type snacks.Config
---		opts = {
---			image = {
---				enabled = true,
---			},
---		},
---	},
 
 	-- {
 	-- 	"folke/trouble.nvim",
