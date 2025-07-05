@@ -88,7 +88,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
 --   local clipboard_content = vim.fn.getreg('+')

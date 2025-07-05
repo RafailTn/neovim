@@ -29,11 +29,14 @@ require("lazy").setup({
 				deep_red = "#be5046"
 			},
 			highlights = {
-				["@lsp.type.variable"] = {fg = "$orange"},
+				["@lsp.type.variable"] = {fg="$orange"},
 				["@lsp.type.namespace.python"] = {fg = "$deep_red"},
 				["@lsp.type.class.python"] = {fg = "$deep_red"},
 				["@number"] = {fg="$blue"},
-				["@lsp.type.method.python"] = {fg = "$deep_blue"}
+				["@number.float.python"] = {fg="$blue"},
+				["@lsp.type.method.python"] = {fg = "$deep_blue"},
+				["@function.method"] = { fg = "$deep_blue" },
+				["@lsp.type.function.python"] = {fg="$deep_blue"}
 			},
 			on_highlights = function(hl, c)
 				-- Variables and identifiers
