@@ -15,42 +15,35 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
 		"navarasu/onedark.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {
-			style = "darker",         
-			transparent = true,
-			colors = {
-				blue = "#61afef",
-				deep_blue = "#0077cc",
-				orange = "#d19a66",
-				pink = "#ff00ff",
-				bright_orange = "#ff8800",
-				deep_red = "#be5046"
-			},
-			highlights = {
-				["@lsp.type.variable"] = {fg="$orange"},
-				["@lsp.type.namespace.python"] = {fg = "$deep_red"},
-				["@lsp.type.class.python"] = {fg = "$deep_red"},
-				["@number"] = {fg="$blue"},
-				["@number.float.python"] = {fg="$blue"},
-				["@lsp.type.method.python"] = {fg = "$deep_blue"},
-				["@function.method"] = { fg = "$deep_blue" },
-				["@lsp.type.function.python"] = {fg="$deep_blue"}
-			},
-			on_highlights = function(hl, c)
-				-- Variables and identifiers
-				hl.NvimTreeNormal = { bg = "NONE" }
-				hl.NvimTreeNormalNC = { bg = "NONE" }
-				hl.NvimTreeEndOfBuffer = { bg = "NONE" }
-				hl.NvimTreeWinSeparator = { bg = "NONE", fg = c.border }
-				hl.NvimTreeVertSplit = { bg = "NONE", fg = c.border }
-			end,
-		},
-		config = function(_, opts)
-			require("onedark").setup(opts)
-			vim.cmd.colorscheme("onedark")
-		end,
+		priority = 1000, -- make sure to load this before all the other start plugins
+		config = function()
+			require('onedark').setup {
+				style = 'darker',
+				transparent = true,
+				colors = {
+					blue = "#61afef",
+					deep_blue = "#0077cc",
+					orange = "#d19a66",
+					pink = "#ff00ff",
+					bright_orange = "#ff8800",
+					deep_red = "#be5046"
+				},
+				highlights = {
+					["@variable"] = {fg="$orange"},
+					["@type"] = {fg="$orange"},
+					["@lsp.type.namespace.python"] = {fg = "$deep_red"},
+					["@lsp.type.class.python"] = {fg = "$deep_red"},
+					["@number"] = {fg="$blue"},
+					["@number.float.python"] = {fg="$blue"},
+					["@lsp.type.method.python"] = {fg = "$deep_blue"},
+					["@function.method"] = { fg = "$deep_blue" },
+					["@lsp.type.function.python"] = {fg="$deep_blue"}
+				}
+			}
+			-- Enable theme
+			require('onedark').load()
+			vim.api.nvim_set_hl(0, '@lsp.type.variable', {})
+		end
 	},
 
 	{
