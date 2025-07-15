@@ -68,7 +68,13 @@ vim.keymap.set("n", "<leader>n", function()
   local filetype = vim.bo.filetype
   local run_cmd = nil
   if filetype == "python" then
-    run_cmd = "python3 " .. file
+    -- Check for active conda environment
+    local conda_prefix = os.getenv("CONDA_PREFIX")
+    local python_cmd = "python3"
+    if conda_prefix then
+      python_cmd = conda_prefix .. "/bin/python"
+    end
+    run_cmd = python_cmd .. " " .. file
   elseif filetype == "sh" or filetype == "bash" then
     run_cmd = "bash " .. file
   end
