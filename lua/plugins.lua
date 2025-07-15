@@ -291,9 +291,22 @@ require("lazy").setup({
 		},
 	},
 
+	{ 
+		'echasnovski/mini.comment', version = '*' 
+	},
+
 	{
-		'echasnovski/mini.nvim',
-		version = '*',
+		'echasnovski/mini.surround', version = '*' 
+	},
+
+	{
+		'echasnovski/mini.icons', version = '*' 
+	},
+
+	{
+		'windwp/nvim-autopairs',
+		event = "InsertEnter",
+		config = true
 	},
 
 	{
