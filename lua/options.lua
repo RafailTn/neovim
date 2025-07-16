@@ -39,7 +39,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = 'Move highlighted lines up
 
 -- Move to usual directories
 vim.keymap.set("n", "<leader>t", ':tabnew<CR>', {desc = 'Opens new tab'})
-vim.keymap.set("n", "<leader>c", ':terminal<CR>', {desc = 'Opens terminal'})
 
 --Git
 vim.keymap.set("n", '<leader>gc', ":Git commit<CR>", { desc = '[C]ommit changes' })

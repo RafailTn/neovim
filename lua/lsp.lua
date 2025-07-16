@@ -64,3 +64,57 @@ vim.api.nvim_create_autocmd(
         end,
     }
 )
+
+require("mason").setup()
+
+local servers = {
+	clangd = {},
+	r_language_server = {},
+    basedpyright = {
+        settings = {
+            basedpyright = { 
+                analysis = {
+                    typeCheckingMode = "basic",
+                    autoImportCompletions = true,
+                }
+            },
+        }
+    },
+	texlab = { filetypes = {'tex', 'plaintex'} },
+	html = { filetypes = { "html", "twig", "hbs" } },
+	lua_ls = {
+		Lua = {
+			workspace = { checkThirdParty = true },
+			telemetry = { enable = false },
+			diagnostics = {
+				globals = { "love" },
+			},
+			-- NOTE: toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+			-- diagnostics = { disable = { 'missing-fields' } },
+		},
+	},
+}
+
+local capabilities = require("blink.cmp").get_lsp_capabilities()
+
+-- Ensure the servers above are installed
+local mason_lspconfig = require("mason-lspconfig")
+
+mason_lspconfig.setup(
+    {
+        ensure_installed = {
+            "clangd",
+            "basedpyright",
+            "texlab",
+            "html",
+            "lua_ls",
+        },
+        handlers = {
+            function(server_name)
+                local server = servers[server_name] or {}
+                server.capabilities = vim.tbl_deep_extend("force", {}, capabilities, server.capabilities or {})
+                require("lspconfig")[server_name].setup(server)
+            end,
+        },
+    }
+)
