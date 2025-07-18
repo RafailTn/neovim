@@ -380,29 +380,63 @@ require("lazy").setup({
 		end
 	},
 	
+
 	{
 		"nvim-telescope/telescope.nvim",
 		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"BurntSushi/ripgrep",
+			"folke/flash.nvim",
 		},
-		config = function ()
+		config = function()
 			local builtin = require("telescope.builtin")
-			vim.keymap.set("n", "<leader>fr", require("telescope.builtin").oldfiles, { desc = "[?] Find recently opened files" })
-			vim.keymap.set("n", "<leader>bb", require("telescope.builtin").buffers, { desc = "[ ] Find existing buffers" })
+
+			local function flash(prompt_bufnr)
+				require("flash").jump({
+					pattern = "^",
+					label = { after = { 0, 0 } },
+					search = {
+						mode = "search",
+						exclude = {
+							function(win)
+								return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= "TelescopeResults"
+							end,
+						},
+					},
+					action = function(match)
+						local picker = require("telescope.actions.state").get_current_picker(prompt_bufnr)
+						picker:set_selection(match.pos[1] - 1)
+					end,
+				})
+			end
+
+			require("telescope").setup({
+				defaults = {
+					mappings = {
+						n = {
+							["s"] = flash,
+						},
+						i = {
+							["<C-s>"] = flash,
+						},
+					},
+				},
+			})
+
+			-- Keymaps
+			vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "[?] Find recently opened files" })
+			vim.keymap.set("n", "<leader>bb", builtin.buffers, { desc = "[ ] Find existing buffers" })
 			vim.keymap.set("n", "<leader>bf", function()
-				require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
-					theme = "dropdown",
-				}))
+				builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({ theme = "dropdown" }))
 			end, { desc = "[/] Fuzzily search in current buffer" })
-			vim.keymap.set("n", "<leader>bt", require("telescope.builtin").builtin, { desc = "[S]earch [S]elect Telescope" })
-			vim.keymap.set("n", "<leader>ff", require("telescope.builtin").find_files, { desc = "[F]ind [F]iles" })
-			vim.keymap.set("n", "<leader>bh", require("telescope.builtin").help_tags, { desc = "[S]earch [H]elp" })
-			vim.keymap.set("n", "<leader>bg", require("telescope.builtin").live_grep, { desc = "[S]earch by [G]rep" })
-			vim.keymap.set("n", "<leader>bd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
-			vim.keymap.set("n", "<leader>br", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })		
-		end 
+			vim.keymap.set("n", "<leader>bt", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
+			vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+			vim.keymap.set("n", "<leader>bh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+			vim.keymap.set("n", "<leader>bg", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+			vim.keymap.set("n", "<leader>bd", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
+			vim.keymap.set("n", "<leader>br", builtin.resume, { desc = "[S]earch [R]esume" })
+		end
 	},
 
 	{
@@ -533,6 +567,7 @@ require("lazy").setup({
 				dashboard.button("SPC e", "  > Toggle file explorer", "<cmd>NvimTreeToggle<CR>"),
 				dashboard.button("SPC fr", "󰱼  > Find Recent File", require("telescope.builtin").oldfiles),
 				dashboard.button("SPC fs", "  > Find Word", "<cmd>Telescope live_grep<CR>"),
+				dashboard.button("SPC wr", "  > Restore Session", "<cmd>SessionSearch<CR>"),
 				dashboard.button("q", "  > Quit NVIM", "<cmd>qa<CR>"),
 			}
 			-- Send config to alpha
@@ -641,7 +676,15 @@ require("lazy").setup({
 		event = "VeryLazy",
 		---@type Flash.Config
 		opts = {
-			labels = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			labels = "abcdefghijklmnopqrstuvwxyz",
+			modes = {
+				char = {
+					jump_labels = true
+				}
+			},
+			search = {
+				mode = "search"
+			}
 		},
 		-- stylua: ignore
 		keys = {
@@ -661,5 +704,51 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter",
 			"nvim-tree/nvim-web-devicons"
 		},
+	},
+
+	{
+		"folke/noice.nvim",
+		event = "VeryLazy",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			"rcarriga/nvim-notify",
+		}
+	},
+
+	{
+		'stevearc/conform.nvim',
+		opts = {},
+	},
+
+	{
+		'MeanderingProgrammer/markdown.nvim',
+		main = "render-markdown",
+		opts = {},
+		dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
+	},
+
+	{
+		'rmagatti/auto-session',
+		lazy = false,
+		keys = {
+			-- Will use Telescope if installed or a vim.ui.select picker otherwise
+			{ '<leader>wr', '<cmd>SessionSearch<CR>', desc = 'Session search' },
+			{ '<leader>ws', '<cmd>SessionSave<CR>', desc = 'Save session' },
+			{ '<leader>wa', '<cmd>SessionToggleAutoSave<CR>', desc = 'Toggle autosave' },
+		},
+		---enables autocomplete for opts
+		---@module "auto-session"
+		---@type AutoSession.Config
+		opts = {
+			suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+			-- log_level = 'debug',
+		}
 	}
+
 })

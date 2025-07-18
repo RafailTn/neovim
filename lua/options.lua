@@ -104,7 +104,7 @@ vim.keymap.set('i', '<C-b>', '<C-o>b', { desc = 'Moves the cursor back one word'
 vim.keymap.set('i', '<C-u>', '<C-o>u', { desc = '[U]ndoes the last change'})
 vim.keymap.set('i', '<C-r>', '<C-o><C-r>', { desc = '[R]edoes last change'})
 
-vim.keymap.set('i', '<D-w>', '<C-o>dw', { desc = 'deletes one word'})
+-- vim.keymap.set('i', '<D-w>', '<C-o>dw', { desc = 'deletes one word'})
 vim.keymap.set('i', '<D-b>', '<C-o>db', { desc = 'deletes one word backwards'})
 vim.keymap.set('i', '<D-i>', '<C-o>diw', { desc = 'deletes word you are inside of'})
 
@@ -114,9 +114,12 @@ vim.keymap.set('i', '<D-y><D-y>', '<C-o>yy', { desc = '[Y]anks current line'})
 vim.keymap.set('i', '<C-d>', '<C-o>d', { desc = 'Engages [D]elete mode'})
 vim.keymap.set('i', '<C-d><C-d>', '<C-o>dd', { desc = '[D]elete current line'})
 
-vim.keymap.set('i', '<D-v>', '<C-o>v', { desc = 'Engages [V]isual mode'})
-vim.keymap.set('i', '<D-v><D-v>', '<C-o>V', { desc = 'Engages [V]isual line mode'})
+vim.keymap.set('i', '<C-v>', '<C-o>v', { desc = 'Engages [V]isual mode'})
+vim.keymap.set('i', '<C-v><C-v>', '<C-o>V', { desc = 'Engages [V]isual line mode'})
 
+require("notify").setup({
+	background_colour = "#000000",
+})
 
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
