@@ -93,6 +93,31 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+
+vim.keymap.set('i', '<D-j>', '<C-o>j', { desc = 'Moves the cursor down one line'})
+vim.keymap.set('i', '<D-k>', '<C-o>k', { desc = 'Moves the cursor up one line'})
+vim.keymap.set('i', '<D-l>', '<C-o>l', { desc = 'Moves the cursor left one space'})
+vim.keymap.set('i', '<D-h>', '<C-o>h', { desc = 'Moves the cursor right one space'})
+vim.keymap.set('i', '<C-w>', '<C-o>w', { desc = 'Moves the cursor one word'})
+vim.keymap.set('i', '<C-b>', '<C-o>b', { desc = 'Moves the cursor back one word'})
+
+vim.keymap.set('i', '<C-u>', '<C-o>u', { desc = '[U]ndoes the last change'})
+vim.keymap.set('i', '<C-r>', '<C-o><C-r>', { desc = '[R]edoes last change'})
+
+vim.keymap.set('i', '<D-w>', '<C-o>dw', { desc = 'deletes one word'})
+vim.keymap.set('i', '<D-b>', '<C-o>db', { desc = 'deletes one word backwards'})
+vim.keymap.set('i', '<D-i>', '<C-o>diw', { desc = 'deletes word you are inside of'})
+
+vim.keymap.set('i', '<D-y>', '<C-o>y', { desc = 'Engages [Y]anks mode'})
+vim.keymap.set('i', '<D-y><D-y>', '<C-o>yy', { desc = '[Y]anks current line'})
+
+vim.keymap.set('i', '<C-d>', '<C-o>d', { desc = 'Engages [D]elete mode'})
+vim.keymap.set('i', '<C-d><C-d>', '<C-o>dd', { desc = '[D]elete current line'})
+
+vim.keymap.set('i', '<D-v>', '<C-o>v', { desc = 'Engages [V]isual mode'})
+vim.keymap.set('i', '<D-v><D-v>', '<C-o>V', { desc = 'Engages [V]isual line mode'})
+
+
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
 --   local clipboard_content = vim.fn.getreg('+')
