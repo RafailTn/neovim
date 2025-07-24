@@ -454,7 +454,8 @@ require("lazy").setup({
         init = function()
             -- these are examples, not defaults. Please see the readme
             vim.g.molten_image_provider = "image.nvim"
-            vim.g.molten_output_win_max_height = 20
+            vim.g.molten_output_win_max_height = 70
+			vim.g.molten_output_show_more = true
         end,
     },
 
@@ -749,6 +750,16 @@ require("lazy").setup({
 			suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
 			-- log_level = 'debug',
 		}
-	}
+	},
+
+	{ 
+		"danymat/neogen", 
+		config = true,
+		version = "*"
+	},
+
+	{
+		"HiPhish/rainbow-delimiters.nvim"
+	},
 
 })

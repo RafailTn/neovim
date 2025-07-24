@@ -32,8 +32,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = 'Center screen after half page 
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = 'Center screen after half page jump' })
 vim.keymap.set("n", "{", "{zz", { desc = 'Center screen after code block jump' })
 vim.keymap.set("n", "}", "}zz", { desc = 'Center screen after code block jump' })
-vim.keymap.set("n", "n", "nzzzv", { desc = 'Center screen after [n]ext jump' })
-vim.keymap.set("n", "N", "Nzzzv", { desc = 'Center screen after [N]ext jump' })
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = 'Move highlighted lines down' })
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = 'Move highlighted lines up' })
 
@@ -121,6 +119,10 @@ require("notify").setup({
 	background_colour = "#000000",
 })
 
+local opts = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", "<Leader>cf", ":lua require('neogen').generate()<CR>", opts)
+vim.api.nvim_set_keymap("n", "<Leader>co", ":lua require('neogen').generate({type='class'})<CR>", opts)
+require('neogen').setup({ snippet_engine = "luasnip" })
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
 --   local clipboard_content = vim.fn.getreg('+')
