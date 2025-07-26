@@ -762,4 +762,13 @@ require("lazy").setup({
 		"HiPhish/rainbow-delimiters.nvim"
 	},
 
+	{
+		'lervag/vimtex',
+		lazy = false,
+		config = function()
+			vim.g.vimtex_view_method = 'skim' -- or 'skim' for macOS
+			vim.g.vimtex_compiler_method = 'latexmk'
+		end
+	}
+
 })
