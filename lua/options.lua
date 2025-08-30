@@ -60,7 +60,7 @@ vim.api.nvim_create_autocmd('TextYankPost',{
 	end,
 })
 
-vim.keymap.set("n", "<leader>n", function()
+vim.keymap.set("n", "<leader>nn", function()
   local file = vim.fn.expand("%")
   local filetype = vim.bo.filetype
   local run_cmd = nil
@@ -123,6 +123,9 @@ local opts = { noremap = true, silent = true }
 vim.api.nvim_set_keymap("n", "<Leader>cf", ":lua require('neogen').generate()<CR>", opts)
 vim.api.nvim_set_keymap("n", "<Leader>co", ":lua require('neogen').generate({type='class'})<CR>", opts)
 require('neogen').setup({ snippet_engine = "luasnip" })
+
+vim.keymap.set('n', '<leader>nh', ':Noice telescope<CR>')
+
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
 --   local clipboard_content = vim.fn.getreg('+')
