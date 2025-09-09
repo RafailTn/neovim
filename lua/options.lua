@@ -119,11 +119,6 @@ require("notify").setup({
 	background_colour = "#000000",
 })
 
-local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap("n", "<Leader>cf", ":lua require('neogen').generate()<CR>", opts)
-vim.api.nvim_set_keymap("n", "<Leader>co", ":lua require('neogen').generate({type='class'})<CR>", opts)
-require('neogen').setup({ snippet_engine = "luasnip" })
-
 vim.keymap.set('n', '<leader>nh', ':Noice telescope<CR>')
 
 -- -- Search for system clipboard content

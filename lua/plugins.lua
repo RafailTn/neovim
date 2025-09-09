@@ -752,12 +752,6 @@ require("lazy").setup({
 		}
 	},
 
-	{ 
-		"danymat/neogen", 
-		config = true,
-		version = "*"
-	},
-
 	{
 		"HiPhish/rainbow-delimiters.nvim"
 	},
