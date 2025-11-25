@@ -145,7 +145,7 @@ require('blink.cmp').setup(
         },
 
         term = {
-            enabled = true,
+            enabled = false,
             keymap = maps,
             completion = {
                 list = {
@@ -159,7 +159,7 @@ require('blink.cmp').setup(
             }
         },
         cmdline = {
-            enabled = true,
+            enabled = false,
             keymap = maps,
             completion = {
                 list = {

@@ -70,6 +70,7 @@ require("mason").setup()
 local servers = {
 	clangd = {},
 	r_language_server = {},
+	-- pyrefly = {},
     basedpyright = {
         settings = {
             basedpyright = { 
@@ -105,6 +106,7 @@ mason_lspconfig.setup(
         ensure_installed = {
             "clangd",
             "basedpyright",
+			-- "pyrefly",
             "texlab",
             "html",
             "lua_ls",

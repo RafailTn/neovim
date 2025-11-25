@@ -10,14 +10,18 @@ vim.opt.scrolloff = 999
 vim.opt.virtualedit = "block"    
 vim.opt.ignorecase = true        
 vim.opt.termguicolors = true     
-vim.opt.shell = "/opt/homebrew/bin/fish"
+vim.opt.shell = "/usr/bin/nu"
 vim.keymap.set('n','<Esc>','<cmd>nohlsearch<CR>')
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { noremap = true })
-
 -- netrw
 vim.g.netrw_bufsettings = 'noma nomod nu rnu nobl nowrap ro'
 vim.g.netrw_indent = 3
-
+vim.opt.keymap = "greek_utf-8"
+vim.opt.spelllang = "el" -- Optional
+-- 2. Force start in English
+vim.opt.iminsert = 0
+vim.opt.imsearch = 0
+vim.keymap.set("i", "<C-g>", "<C-^>", { desc = "Toggle Greek" })
 -- Remaps
 vim.keymap.set("n", "zj", vim.cmd.w, { desc = '[S]ave' })
 vim.keymap.set("n", "zk", vim.cmd.q, { desc = '[Q]uits' })
@@ -60,27 +64,76 @@ vim.api.nvim_create_autocmd('TextYankPost',{
 	end,
 })
 
+-- vim.keymap.set("n", "<leader>nn", function()
+--   local file = vim.fn.expand("%")
+--   local filetype = vim.bo.filetype
+--   local run_cmd = nil
+--   if filetype == "python" then
+--     -- Check for active conda environment
+--     local conda_prefix = os.getenv("CONDA_PREFIX")
+--     local python_cmd = "python3"
+--     if conda_prefix then
+--       python_cmd = conda_prefix .. "/bin/python"
+--     end
+--     run_cmd = python_cmd .. " " .. file
+--   elseif filetype == "sh" or filetype == "bash" then
+--     run_cmd = "bash " .. file
+--   end
+--   if run_cmd then
+--     vim.cmd("split | terminal " .. run_cmd)
+--   else
+--     print("No run command set for filetype: " .. filetype)
+--   end
+-- end, { desc = "Run current file in terminal" })
 vim.keymap.set("n", "<leader>nn", function()
+  -- 1. Save the file first (so you run the latest changes)
+  vim.cmd("write")
+
   local file = vim.fn.expand("%")
   local filetype = vim.bo.filetype
   local run_cmd = nil
-  if filetype == "python" then
-    -- Check for active conda environment
-    local conda_prefix = os.getenv("CONDA_PREFIX")
-    local python_cmd = "python3"
-    if conda_prefix then
-      python_cmd = conda_prefix .. "/bin/python"
+
+  -- === LOGIC START ===
+  if filetype == "nu" then
+    -- Run Nushell scripts
+    run_cmd = "nu " .. file
+
+  elseif filetype == "python" then
+    -- Check if we are in a Pixi project by looking for pixi.toml
+    local pixi_root = vim.fs.find("pixi.toml", {
+      path = vim.fn.expand("%:p:h"),
+      upward = true,
+      stop = os.getenv("HOME")
+    })[1]
+
+    if pixi_root then
+      -- If pixi.toml exists, use 'pixi run' to use the correct env
+      run_cmd = "pixi run python " .. file
+    else
+      -- Fallback: Check for Conda
+      local conda_prefix = os.getenv("CONDA_PREFIX")
+      if conda_prefix then
+        run_cmd = conda_prefix .. "/bin/python " .. file
+      else
+        -- Fallback: System Python
+        run_cmd = "python3 " .. file
+      end
     end
-    run_cmd = python_cmd .. " " .. file
+
   elseif filetype == "sh" or filetype == "bash" then
     run_cmd = "bash " .. file
   end
+
+  -- === EXECUTION ===
   if run_cmd then
+    -- Open a small split at the bottom and run the command
     vim.cmd("split | terminal " .. run_cmd)
+    -- Optional: Enter insert mode automatically in the terminal
+    -- vim.cmd("startinsert")
   else
     print("No run command set for filetype: " .. filetype)
   end
-end, { desc = "Run current file in terminal" })
+end, { desc = "Run current file (Pixi/Nu/Python/Bash)" })
 
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "tex",

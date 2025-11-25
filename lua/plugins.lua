@@ -446,34 +446,34 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
-		--   {
-		--       "benlubas/molten-nvim",
-		--       version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
-		--       dependencies = { "3rd/image.nvim" },
-		--       build = ":UpdateRemotePlugins",
-		--       init = function()
-		--           -- these are examples, not defaults. Please see the readme
-		--           vim.g.molten_image_provider = "image.nvim"
-		--           vim.g.molten_output_win_max_height = 70
-		-- 	vim.g.molten_output_show_more = true
-		--       end,
-		--   },
+	 {
+		 "benlubas/molten-nvim",
+		 version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+		 dependencies = { "3rd/image.nvim" },
+		 build = ":UpdateRemotePlugins",
+		 init = function()
+			 -- these are examples, not defaults. Please see the readme
+			 vim.g.molten_image_provider = "image.nvim"
+			 vim.g.molten_output_win_max_height = 70
+		 vim.g.molten_output_show_more = true
+		 end,
+	 },
 
-		--   {
-		--       -- see the image.nvim readme for more information about configuring this plugin
-		--       "3rd/image.nvim",
-		-- commit = "4206c48",
-		-- build = false,
-		--       opts = {
-		--           backend = "kitty", -- whatever backend you would like to use
-		-- 	max_width =150,
-		-- 	max_height = 70,
-		-- 	max_height_window_percentage = math.huge,
-		-- 	max_width_window_percentage = math.huge,
-		--           window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-		--           window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-		--       },
-		--   },
+		  {
+		      -- see the image.nvim readme for more information about configuring this plugin
+			"3rd/image.nvim",
+			commit = "4206c48",
+			build = false,
+		    opts = {
+		    	backend = "kitty", -- whatever backend you would like to use
+				max_width =150,
+				max_height = 70,
+				max_height_window_percentage = math.huge,
+				max_width_window_percentage = math.huge,
+		        window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+		        window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+		      },
+		  },
 
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -627,32 +627,32 @@ require("lazy").setup({
 --		end,
 --	},
 
-	-- {
-	-- 	"GCBallesteros/jupytext.nvim",
-	-- 	config = true,
-	-- 	-- Depending on your nvim distro or config you may need to make the loading not lazy
-	-- 	-- lazy=false,
-	-- },
+	{
+		"GCBallesteros/jupytext.nvim",
+		config = true,
+		-- Depending on your nvim distro or config you may need to make the loading not lazy
+		-- lazy=false,
+	},
 
-	-- {
-	-- 	"GCBallesteros/NotebookNavigator.nvim",
-	-- 	keys = {
-	-- 		{ "<leader>d", function() require("notebook-navigator").move_cell "d" end },
-	-- 		{ "<leader>u", function() require("notebook-navigator").move_cell "u" end },
-	-- 		{ "<leader>Z", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
-	-- 		{ "<leader>z", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
-	-- 		{ "<leader>ra", "<cmd>lua require('notebook-navigator').run_all_cells()<cr>", desc = "Run all cells" },
-	-- 		{ "<leader>rb", "<cmd>lua require('notebook-navigator').run_cells_below()<cr>", desc = "Run current and cells below" },
-	-- 		{ "<leader>ab", "<cmd>lua require('notebook-navigator').add_cell_below()<cr>", desc = "Add cell below" },
-	-- 		{ "<leader>aa", "<cmd>lua require('notebook-navigator').add_cell_above()<cr>", desc = "Add cell above" },
-	-- 		{ "<leader>sn", "<cmd>lua require('notebook-navigator').split_cell()<cr>", desc = "Split cell at cursor" },
-	-- 	},
-	-- 	dependencies = {
-	-- 		"echasnovski/mini.comment",
-	-- 		"benlubas/molten-nvim", -- alternative repl provider
-	-- 	},
-	-- 	event = "VeryLazy",
-	-- },
+	{
+		"GCBallesteros/NotebookNavigator.nvim",
+		keys = {
+			{ "<leader>d", function() require("notebook-navigator").move_cell "d" end },
+			{ "<leader>u", function() require("notebook-navigator").move_cell "u" end },
+			{ "<leader>Z", "<cmd>lua require('notebook-navigator').run_cell()<cr>" },
+			{ "<leader>z", "<cmd>lua require('notebook-navigator').run_and_move()<cr>" },
+			{ "<leader>ra", "<cmd>lua require('notebook-navigator').run_all_cells()<cr>", desc = "Run all cells" },
+			{ "<leader>rb", "<cmd>lua require('notebook-navigator').run_cells_below()<cr>", desc = "Run current and cells below" },
+			{ "<leader>ab", "<cmd>lua require('notebook-navigator').add_cell_below()<cr>", desc = "Add cell below" },
+			{ "<leader>aa", "<cmd>lua require('notebook-navigator').add_cell_above()<cr>", desc = "Add cell above" },
+			{ "<leader>sn", "<cmd>lua require('notebook-navigator').split_cell()<cr>", desc = "Split cell at cursor" },
+		},
+		dependencies = {
+			"echasnovski/mini.comment",
+			"benlubas/molten-nvim", -- alternative repl provider
+		},
+		event = "VeryLazy",
+	},
 
 	{
 		"echasnovski/mini.ai",
