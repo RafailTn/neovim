@@ -665,12 +665,12 @@ require("lazy").setup({
 		end,
 	},
 
-	{
-		"mbbill/undotree",
-		keys = {
-			{ "<leader>h", "<cmd>UndotreeToggle<cr>", desc = "Toggle UndoTree" },
-		},
-	},
+	-- {
+	-- 	"mbbill/undotree",
+	-- 	keys = {
+	-- 		{ "<leader>h", "<cmd>UndotreeToggle<cr>", desc = "Toggle UndoTree" },
+	-- 	},
+	-- },
 
 	{
 		"folke/flash.nvim",
@@ -734,23 +734,23 @@ require("lazy").setup({
 		dependencies = { 'nvim-treesitter/nvim-treesitter', 'echasnovski/mini.icons' }, -- if you use standalone mini plugins
 	},
 
-	{
-		'rmagatti/auto-session',
-		lazy = false,
-		keys = {
-			-- Will use Telescope if installed or a vim.ui.select picker otherwise
-			{ '<leader>wr', '<cmd>AutoSession search<CR>', desc = 'Session search' },
-			{ '<leader>ws', '<cmd>AutoSession save<CR>', desc = 'Save session' },
-			{ '<leader>wa', '<cmd>AutoSession toggle<CR>', desc = 'Toggle autosave' },
-		},
-		---enables autocomplete for opts
-		---@module "auto-session"
-		---@type AutoSession.Config
-		opts = {
-			suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
-			-- log_level = 'debug',
-		}
-	},
+	-- {
+	-- 	'rmagatti/auto-session',
+	-- 	lazy = false,
+	-- 	keys = {
+	-- 		-- Will use Telescope if installed or a vim.ui.select picker otherwise
+	-- 		{ '<leader>wr', '<cmd>AutoSession search<CR>', desc = 'Session search' },
+	-- 		{ '<leader>ws', '<cmd>AutoSession save<CR>', desc = 'Save session' },
+	-- 		{ '<leader>wa', '<cmd>AutoSession toggle<CR>', desc = 'Toggle autosave' },
+	-- 	},
+	-- 	---enables autocomplete for opts
+	-- 	---@module "auto-session"
+	-- 	---@type AutoSession.Config
+	-- 	opts = {
+	-- 		suppressed_dirs = { '~/', '~/Projects', '~/Downloads', '/' },
+	-- 		-- log_level = 'debug',
+	-- 	}
+	-- },
 
 	{
 		"HiPhish/rainbow-delimiters.nvim"
