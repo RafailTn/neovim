@@ -707,25 +707,25 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		"folke/noice.nvim",
-		event = "VeryLazy",
-		opts = {
-			-- add any options here
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			"rcarriga/nvim-notify",
-		}
-	},
+	-- {
+	-- 	"folke/noice.nvim",
+	-- 	event = "VeryLazy",
+	-- 	opts = {
+	-- 		-- add any options here
+	-- 	},
+	-- 	dependencies = {
+	-- 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+	-- 		"MunifTanjim/nui.nvim",
+	-- 		-- OPTIONAL:
+	-- 		--   `nvim-notify` is only needed, if you want to use the notification view.
+	-- 		"rcarriga/nvim-notify",
+	-- 	}
+	-- },
 
-	{
-		'stevearc/conform.nvim',
-		opts = {},
-	},
+	-- {
+	-- 	'stevearc/conform.nvim',
+	-- 	opts = {},
+	-- },
 
 	{
 		'MeanderingProgrammer/markdown.nvim',
@@ -760,7 +760,7 @@ require("lazy").setup({
 		'lervag/vimtex',
 		lazy = false,
 		config = function()
-			vim.g.vimtex_view_method = 'skim' -- or 'skim' for macOS
+			vim.g.vimtex_view_method = 'zathura' 
 			vim.g.vimtex_compiler_method = 'latexmk'
 		end
 	}

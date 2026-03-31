@@ -168,11 +168,11 @@ vim.keymap.set('i', '<C-d><C-d>', '<C-o>dd', { desc = '[D]elete current line'})
 vim.keymap.set('i', '<C-v>', '<C-o>v', { desc = 'Engages [V]isual mode'})
 vim.keymap.set('i', '<C-v><C-v>', '<C-o>V', { desc = 'Engages [V]isual line mode'})
 
-require("notify").setup({
-	background_colour = "#000000",
-})
+-- require("notify").setup({
+-- 	background_colour = "#000000",
+-- })
 
-vim.keymap.set('n', '<leader>nh', ':Noice telescope<CR>')
+-- vim.keymap.set('n', '<leader>nh', ':Noice telescope<CR>')
 
 -- -- Search for system clipboard content
 -- vim.keymap.set('n', '<leader>sf', function()
