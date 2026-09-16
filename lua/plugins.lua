@@ -90,316 +90,128 @@ require("lazy").setup({
 			local move   = require("nvim-treesitter-textobjects.move")
 			local swap   = require("nvim-treesitter-textobjects.swap")
 
+			-- '@parameter.inner' -> 'Swap next parameter (inner)', so which-key has a label
+			local function desc(action, query)
+				local obj, part = query:match("^@(.-)%.(.+)$")
+				return ("%s %s (%s)"):format(action, obj:gsub("_", " "), part)
+			end
+
 			-- SELECT
 			local sel_maps = {
 				['ai'] = '@assignment.inner',  ['al'] = '@assignment.lhs',
 				['ao'] = '@assignment.outer',  ['ar'] = '@assignment.rhs',
-				['ui'] = '@attribute.inner',   ['ua'] = '@attribute.outer',
 				['bi'] = '@block.inner',       ['bo'] = '@block.outer',
 				['cli'] = '@call.inner',       ['clo'] = '@call.outer',
 				['hi'] = '@comment.inner',     ['ho'] = '@comment.outer',
-				['mi'] = '@frame.inner',       ['mo'] = '@frame.outer',
 				['ni'] = '@number.inner',
-				['ix'] = '@regex.inner',       ['ax'] = '@regex.outer',
 				['ri'] = '@return.inner',      ['ro'] = '@return.outer',
-				['is'] = '@scopename.inner',   ['so'] = '@statement.outer',
+				['so'] = '@statement.outer',
 				['po'] = '@parameter.outer',   ['pi'] = '@parameter.inner',
 				['fo'] = '@function.outer',    ['fi'] = '@function.inner',
 				['co'] = '@class.outer',       ['ci'] = '@class.inner',
 				['lo'] = '@loop.outer',        ['li'] = '@loop.inner',
 				['io'] = '@conditional.outer', ['ii'] = '@conditional.inner',
-				['as'] = '@local.scope',
 			}
 			for key, query in pairs(sel_maps) do
 				vim.keymap.set({ "x", "o" }, key, function()
 					select.select_textobject(query, "textobjects")
-				end)
+				end, { desc = desc("Select", query) })
 			end
+
+			-- @local.scope lives in the `locals` query group, not `textobjects`
+			vim.keymap.set({ "x", "o" }, 'as', function()
+				select.select_textobject('@local.scope', "locals")
+			end, { desc = "Select local scope" })
 
 			-- MOVE: goto_next_start
 			local gns = {
-				['gje'] = '@assignment.outer', ['gja'] = '@attribute.outer',
-				['gjb'] = '@block.outer',      ['gjk'] = '@call.outer',
-				['gjo'] = '@comment.outer',    ['gjm'] = '@frame.outer',
-				['gjx'] = '@regex.outer',      ['gjr'] = '@return.outer',
-				['gjs'] = '@statement.outer',  ['gjp'] = '@parameter.outer',
-				['gjf'] = '@function.outer',   ['gjc'] = '@class.outer',
-				['gjl'] = '@loop.outer',       ['gji'] = '@conditional.outer',
+				['gje'] = '@assignment.outer', ['gjb'] = '@block.outer',
+				['gjk'] = '@call.outer',       ['gjo'] = '@comment.outer',
+				['gjr'] = '@return.outer',     ['gjs'] = '@statement.outer',
+				['gjp'] = '@parameter.outer',  ['gjf'] = '@function.outer',
+				['gjc'] = '@class.outer',      ['gjl'] = '@loop.outer',
+				['gji'] = '@conditional.outer',
 			}
 			for key, query in pairs(gns) do
 				vim.keymap.set({ "n", "x", "o" }, key, function()
 					move.goto_next_start(query, "textobjects")
-				end)
+				end, { desc = desc("Next start of", query) })
 			end
 
 			-- MOVE: goto_next_end
 			local gne = {
-				['gJe'] = '@assignment.outer', ['gJa'] = '@attribute.outer',
-				['gJb'] = '@block.outer',      ['gJk'] = '@call.outer',
-				['gJo'] = '@comment.outer',    ['gJm'] = '@frame.outer',
-				['gJx'] = '@regex.outer',      ['gJr'] = '@return.outer',
-				['gJs'] = '@statement.outer',  ['gJp'] = '@parameter.outer',
-				['gJf'] = '@function.outer',   ['gJc'] = '@class.outer',
-				['gJl'] = '@loop.outer',       ['gJi'] = '@conditional.outer',
+				['gJe'] = '@assignment.outer', ['gJb'] = '@block.outer',
+				['gJk'] = '@call.outer',       ['gJo'] = '@comment.outer',
+				['gJr'] = '@return.outer',     ['gJs'] = '@statement.outer',
+				['gJp'] = '@parameter.outer',  ['gJf'] = '@function.outer',
+				['gJc'] = '@class.outer',      ['gJl'] = '@loop.outer',
+				['gJi'] = '@conditional.outer',
 			}
 			for key, query in pairs(gne) do
 				vim.keymap.set({ "n", "x", "o" }, key, function()
 					move.goto_next_end(query, "textobjects")
-				end)
+				end, { desc = desc("Next end of", query) })
 			end
 
 			-- MOVE: goto_previous_start
 			local gps = {
-				['gke'] = '@assignment.outer', ['gka'] = '@attribute.outer',
-				['gkb'] = '@block.outer',      ['gkk'] = '@call.outer',
-				['gko'] = '@comment.outer',    ['gkm'] = '@frame.outer',
-				['gkx'] = '@regex.outer',      ['gkr'] = '@return.outer',
-				['gks'] = '@statement.outer',  ['gkp'] = '@parameter.outer',
-				['gkf'] = '@function.outer',   ['gkc'] = '@class.outer',
-				['gkl'] = '@loop.outer',       ['gki'] = '@conditional.outer',
+				['gke'] = '@assignment.outer', ['gkb'] = '@block.outer',
+				['gkk'] = '@call.outer',       ['gko'] = '@comment.outer',
+				['gkr'] = '@return.outer',     ['gks'] = '@statement.outer',
+				['gkp'] = '@parameter.outer',  ['gkf'] = '@function.outer',
+				['gkc'] = '@class.outer',      ['gkl'] = '@loop.outer',
+				['gki'] = '@conditional.outer',
 			}
 			for key, query in pairs(gps) do
 				vim.keymap.set({ "n", "x", "o" }, key, function()
 					move.goto_previous_start(query, "textobjects")
-				end)
+				end, { desc = desc("Prev start of", query) })
 			end
 
 			-- MOVE: goto_previous_end
 			local gpe = {
-				['gKe'] = '@assignment.outer', ['gKa'] = '@attribute.outer',
-				['gKb'] = '@block.outer',      ['gKk'] = '@call.outer',
-				['gKo'] = '@comment.outer',    ['gKm'] = '@frame.outer',
-				['gKx'] = '@regex.outer',      ['gKr'] = '@return.outer',
-				['gKs'] = '@statement.outer',  ['gKp'] = '@parameter.outer',
-				['gKf'] = '@function.outer',   ['gKc'] = '@class.outer',
-				['gKl'] = '@loop.outer',       ['gKi'] = '@conditional.outer',
+				['gKe'] = '@assignment.outer', ['gKb'] = '@block.outer',
+				['gKk'] = '@call.outer',       ['gKo'] = '@comment.outer',
+				['gKr'] = '@return.outer',     ['gKs'] = '@statement.outer',
+				['gKp'] = '@parameter.outer',  ['gKf'] = '@function.outer',
+				['gKc'] = '@class.outer',      ['gKl'] = '@loop.outer',
+				['gKi'] = '@conditional.outer',
 			}
 			for key, query in pairs(gpe) do
 				vim.keymap.set({ "n", "x", "o" }, key, function()
 					move.goto_previous_end(query, "textobjects")
-				end)
+				end, { desc = desc("Prev end of", query) })
 			end
 
 			-- SWAP next
 			local sn = {
-				['<leader>je'] = '@assignment.inner', ['<leader>ja'] = '@attribute.inner',
-				['<leader>jb'] = '@block.inner',      ['<leader>jk'] = '@call.inner',
-				['<leader>jo'] = '@comment.inner',    ['<leader>jm'] = '@frame.inner',
-				['<leader>jx'] = '@regex.inner',      ['<leader>jr'] = '@return.inner',
-				['<leader>js'] = '@statement.inner',  ['<leader>jp'] = '@parameter.inner',
+				['<leader>je'] = '@assignment.inner', ['<leader>jb'] = '@block.inner',
+				['<leader>jk'] = '@call.inner',       ['<leader>jo'] = '@comment.inner',
+				['<leader>jr'] = '@return.inner',     ['<leader>jp'] = '@parameter.inner',
 				['<leader>jf'] = '@function.outer',   ['<leader>jc'] = '@class.outer',
 				['<leader>jl'] = '@loop.outer',       ['<leader>ji'] = '@conditional.outer',
 			}
 			for key, query in pairs(sn) do
 				vim.keymap.set("n", key, function()
 					swap.swap_next(query)
-				end)
+				end, { desc = desc("Swap next", query) })
 			end
 
 			-- SWAP previous
 			local sp = {
-				['<leader>ke'] = '@assignment.inner', ['<leader>ka'] = '@attribute.inner',
-				['<leader>kb'] = '@block.inner',      ['<leader>kk'] = '@call.inner',
-				['<leader>ko'] = '@comment.inner',    ['<leader>km'] = '@frame.inner',
-				['<leader>kx'] = '@regex.inner',      ['<leader>kr'] = '@return.inner',
-				['<leader>ks'] = '@statement.inner',  ['<leader>kp'] = '@parameter.inner',
+				['<leader>ke'] = '@assignment.inner', ['<leader>kb'] = '@block.inner',
+				['<leader>kk'] = '@call.inner',       ['<leader>ko'] = '@comment.inner',
+				['<leader>kr'] = '@return.inner',     ['<leader>kp'] = '@parameter.inner',
 				['<leader>kf'] = '@function.outer',   ['<leader>kc'] = '@class.outer',
 				['<leader>kl'] = '@loop.outer',       ['<leader>ki'] = '@conditional.outer',
 			}
 			for key, query in pairs(sp) do
 				vim.keymap.set("n", key, function()
 					swap.swap_previous(query)
-				end)
+				end, { desc = desc("Swap prev", query) })
 			end
 		end,
 	},
-
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter",
-	-- 	dependencies = {
-	-- 		"nvim-treesitter/nvim-treesitter-textobjects",
-	-- 	},
-	-- 	build = ":TSUpdate",
-	-- 	config = function()
-	-- 		require("nvim-treesitter.configs").setup({
-	-- 			ensure_installed = {"c","lua", "python", "vim", "vimdoc", "query", "latex", "bibtex"},
-	-- 			auto_install = true,
-	-- 			highlight = {
-	-- 				enable = true,
-	-- 			},
-	-- 			incremental_selection = {
-	-- 				enable = true,
-	-- 				keymaps = {
-	-- 					init_selection = "<Leader>ss",
-	-- 					node_incremental = "<Leader>si", 
-	-- 					scope_incremental = "<Leader>sc", 
-	-- 					node_decremental = "<Leader>sd", 
-	-- 				},
-	-- 			},
-	-- 			textobjects = {
-	-- 				select = {
-	-- 					enable = true,
-	-- 					-- Automatically jump forward to textobj, similar to targets.vim
-	-- 					lookahead = true,
-	-- 					keymaps = {
-	-- 						["as"] = { query = "@local.scope", query_group = "locals", desc = "Select language scope" },
-	-- 						['ai'] = '@assignment.inner',
-	-- 						['al'] = '@assignment.lhs',
-	-- 						['ao'] = '@assignment.outer',
-	-- 						['ar'] = '@assignment.rhs',
-	-- 						['ui'] = '@attribute.inner',
-	-- 						['ua'] = '@attribute.outer',
-	-- 						['bi'] = '@block.inner',
-	-- 						['bo'] = '@block.outer',
-	-- 						['cli'] = '@call.inner',
-	-- 						['clo'] = '@call.outer',
-	-- 						['hi'] = '@comment.inner',
-	-- 						['ho'] = '@comment.outer',
-	-- 						['mi'] = '@frame.inner',
-	-- 						['mo'] = '@frame.outer',
-	-- 						['ni'] = '@number.inner',
-	-- 						['ix'] = '@regex.inner',
-	-- 						['ax'] = '@regex.outer',
-	-- 						['ri'] = '@return.inner',
-	-- 						['ro'] = '@return.outer',
-	-- 						['is'] = '@scopename.inner',
-	-- 						['so'] = '@statement.outer',
-	-- 						['po'] = '@parameter.outer',
-	-- 						['pi'] = '@parameter.inner',
-	-- 						['fo'] = '@function.outer',
-	-- 						['fi'] = '@function.inner',
-	-- 						['co'] = '@class.outer',
-	-- 						['ci'] = '@class.inner',
-	-- 						['lo'] = '@loop.outer',
-	-- 						['li'] = '@loop.inner',
-	-- 						['io'] = '@conditional.outer',
-	-- 						['ii'] = '@conditional.inner',
-	-- 					},
-	-- 					-- You can choose the select mode (default is charwise 'v')
-	-- 					--
-	-- 					-- Can also be a function which gets passed a table with the keys
-	-- 					-- * query_string: eg '@function.inner'
-	-- 					-- * method: eg 'v' or 'o'
-	-- 					-- and should return the mode ('v', 'V', or '<c-v>') or a table
-	-- 					-- mapping query_strings to modes.
-	-- 					selection_modes = {
-	-- 						['@parameter.outer'] = 'v', -- charwise
-	-- 						['@function.outer'] = 'V', -- linewise
-	-- 						['@class.outer'] = '<c-v>', -- blockwise
-	-- 					},
-	-- 					include_surrounding_whitespace = true,
-	-- 				},
-	-- 				move = {
-	-- 					enable = true,
-	-- 					set_jumps = true, -- whether to set jumps in the jumplist
-	-- 					goto_next_start = {
-	-- 						['gje'] = '@assignment.outer',
-	-- 						['gja'] = '@attribute.outer',
-	-- 						['gjb'] = '@block.outer',
-	-- 						['gjk'] = '@call.outer',
-	-- 						['gjo'] = '@comment.outer',
-	-- 						['gjm'] = '@frame.outer',
-	-- 						['gjx'] = '@regex.outer',
-	-- 						['gjr'] = '@return.outer',
-	-- 						['gjs'] = '@statement.outer',
-	-- 						['gjp'] = '@parameter.outer',
-	-- 						['gjf'] = '@function.outer',
-	-- 						['gjc'] = '@class.outer',
-	-- 						['gjl'] = '@loop.outer',
-	-- 						['gji'] = '@conditional.outer',
-	-- 					},
-	-- 					goto_next_end = {
-	-- 						['gJe'] = '@assignment.outer',
-	-- 						['gJa'] = '@attribute.outer',
-	-- 						['gJb'] = '@block.outer',
-	-- 						['gJk'] = '@call.outer',
-	-- 						['gJo'] = '@comment.outer',
-	-- 						['gJm'] = '@frame.outer',
-	-- 						['gJx'] = '@regex.outer',
-	-- 						['gJr'] = '@return.outer',
-	-- 						['gJs'] = '@statement.outer',
-	-- 						['gJp'] = '@parameter.outer',
-	-- 						['gJf'] = '@function.outer',
-	-- 						['gJc'] = '@class.outer',
-	-- 						['gJl'] = '@loop.outer',
-	-- 						['gJi'] = '@conditional.outer',
-	-- 					},
-	-- 					goto_previous_start = {
-	-- 						['gke'] = '@assignment.outer',
-	-- 						['gka'] = '@attribute.outer',
-	-- 						['gkb'] = '@block.outer',
-	-- 						['gkk'] = '@call.outer',
-	-- 						['gko'] = '@comment.outer',
-	-- 						['gkm'] = '@frame.outer',
-	-- 						['gkx'] = '@regex.outer',
-	-- 						['gkr'] = '@return.outer',
-	-- 						['gks'] = '@statement.outer',
-	-- 						['gkp'] = '@parameter.outer',
-	-- 						['gkf'] = '@function.outer',
-	-- 						['gkc'] = '@class.outer',
-	-- 						['gkl'] = '@loop.outer',
-	-- 						['gki'] = '@conditional.outer',
-	-- 					},
-	-- 					goto_previous_end = {
-	-- 						['gKe'] = '@assignment.outer',
-	-- 						['gKa'] = '@attribute.outer',
-	-- 						['gKb'] = '@block.outer',
-	-- 						['gKk'] = '@call.outer',
-	-- 						['gKo'] = '@comment.outer',
-	-- 						['gKm'] = '@frame.outer',
-	-- 						['gKx'] = '@regex.outer',
-	-- 						['gKr'] = '@return.outer',
-	-- 						['gKs'] = '@statement.outer',
-	-- 						['gKp'] = '@parameter.outer',
-	-- 						['gKf'] = '@function.outer',
-	-- 						['gKc'] = '@class.outer',
-	-- 						['gKl'] = '@loop.outer',
-	-- 						['gKi'] = '@conditional.outer',
-	-- 					},
-	-- 				},
-	-- 				swap = {
-	-- 					enable = true,
-	-- 					swap_next = {
-	-- 						['<leader>je'] = '@assignment.inner',
-	-- 						['<leader>ja'] = '@attribute.inner',
-	-- 						['<leader>jb'] = '@block.inner',
-	-- 						['<leader>jk'] = '@call.inner',
-	-- 						['<leader>jo'] = '@comment.inner',
-	-- 						['<leader>jm'] = '@frame.inner',
-	-- 						['<leader>jx'] = '@regex.inner',
-	-- 						['<leader>jr'] = '@return.inner',
-	-- 						['<leader>js'] = '@statement.inner',
-	-- 						['<leader>jp'] = '@parameter.inner',
-	-- 						['<leader>jf'] = '@function.outer',
-	-- 						['<leader>jc'] = '@class.outer',
-	-- 						['<leader>jl'] = '@loop.outer',
-	-- 						['<leader>ji'] = '@conditional.outer',
-	-- 					},
-	-- 					swap_previous = {
-	-- 						['<leader>ke'] = '@assignment.inner',
-	-- 						['<leader>ka'] = '@attribute.inner',
-	-- 						['<leader>kb'] = '@block.inner',
-	-- 						['<leader>kk'] = '@call.inner',
-	-- 						['<leader>ko'] = '@comment.inner',
-	-- 						['<leader>km'] = '@frame.inner',
-	-- 						['<leader>kx'] = '@regex.inner',
-	-- 						['<leader>kr'] = '@return.inner',
-	-- 						['<leader>ks'] = '@statement.inner',
-	-- 						['<leader>kp'] = '@parameter.inner',
-	-- 						['<leader>kf'] = '@function.outer',
-	-- 						['<leader>kc'] = '@class.outer',
-	-- 						['<leader>kl'] = '@loop.outer',
-	-- 						['<leader>ki'] = '@conditional.outer',
-	-- 					},
-	-- 				},
-	-- 			},
-	-- 		})
-	-- 	end,
-	-- },
-
-	-- {
-	-- 	"nvim-treesitter/nvim-treesitter-textobjects",
-	-- },
 
 	{
 		"folke/which-key.nvim",
@@ -581,13 +393,28 @@ require("lazy").setup({
 
 			require("telescope").setup({
 				defaults = {
-					mappings = {
-						n = {
-							["s"] = flash,
-						},
-						i = {
-							["<C-s>"] = flash,
-						},
+					mappings = {n = {["s"] = flash,}, i = {["<C-s>"] = flash,},},
+					vimgrep_arguments = {
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+						"--hidden",
+						"--glob=!.git/",
+					},
+				},
+				pickers = {
+					find_files = {
+						hidden = true,
+						find_command = { "fd", "--type", "f", "--hidden", "--exclude", ".git" },
+					},
+					live_grep = {
+						additional_args = function()
+							return { "--hidden", "--glob=!.git/" }
+						end,
 					},
 				},
 			})
@@ -627,21 +454,21 @@ require("lazy").setup({
 		 end,
 	 },
 
-		  {
-		      -- see the image.nvim readme for more information about configuring this plugin
+			 {
+			     -- see the image.nvim readme for more information about configuring this plugin
 			"3rd/image.nvim",
 			commit = "4206c48",
 			build = false,
-		    opts = {
-		    	backend = "kitty", -- whatever backend you would like to use
+			   opts = {
+			   	backend = "kitty", -- whatever backend you would like to use
 				max_width =150,
 				max_height = 70,
 				max_height_window_percentage = math.huge,
 				max_width_window_percentage = math.huge,
-		        window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
-		        window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
-		      },
-		  },
+			       window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+			       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+			     },
+			 },
 
 	{
 		"nvim-tree/nvim-tree.lua",
